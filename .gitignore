@@ -1,0 +1,57 @@
+# Maven 관련 파일
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Gradle 관련 파일
+.gradle/
+build/
+!gradle-wrapper.jar
+.gradle/cache/
+.gradle/workerMain/
+.gradle/daemon/
+.gradle/testkit/
+!gradlew
+!gradlew.bat
+.gradle/wrapper/dists/
+
+# IDE 설정 파일
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+
+### Eclipse ###
+*.metadata/
+*.classpath
+*.project
+*.settings/
+
+### VS Code ###
+.vscode/
+
+# 운영체제 관련 파일
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+*.out
+
+# 환경 설정 파일
+.env
+
+# 테스트 결과 파일
+/test-output/
+
+# 기타
+*.bak
+*.swp
+*.tmp
+*.lock
+application.yml
