@@ -1,4 +1,4 @@
-package com.pmm.pickmymenu_back.contoller;
+package com.pmm.pickmymenu_back.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
