@@ -1,7 +1,7 @@
 package com.pmm.pickmymenu_back.service;
 
 import com.pmm.pickmymenu_back.dto.FoodCategoryDTO;
-import com.pmm.pickmymenu_back.entity.FoodCategory;
+import com.pmm.pickmymenu_back.domain.FoodCategory;
 import com.pmm.pickmymenu_back.repository.FoodCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
