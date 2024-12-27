@@ -24,33 +24,6 @@ public class Member extends TimeEntity{
     private String password;
     @Column(nullable = false)
     private String name;
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private MemberType type;
-    @Column
-    private String refreshToken;
-
-//    @OneToMany(mappedBy = "member")
-//    private List<RoomMember> roomMemberList = new ArrayList<>();
-
-//    @Builder
-//    public Member(Long id, String email, String password, String name, MemberType type, String refreshToken) {
-//        this.id = id;
-//        this.email = email;
-//        this.password = password;
-//        this.name = name;
-//        this.type = type;
-//        this.refreshToken = refreshToken;
-//    }
-
-//    public static Member createMember(SignupRequest req){
-//        return Member.builder()
-//            .email(req.getEmail())
-//            .password(req.getPassword())
-//            .name(req.getName())
-//            .type(MemberType.USER)
-//            .build();
-//    }
 
 
 }
