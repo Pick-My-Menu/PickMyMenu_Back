@@ -1,17 +1,19 @@
 package com.pmm.pickmymenu_back.dto;
 
+import com.pmm.pickmymenu_back.domain.FoodCategory;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Data
 public class FoodCategoryDTO {
 
-    private String option1;
-    private String option2;
+    private Long id; // 카테고리 ID
+    private String name; // 카테고리 이름
 
-    public FoodCategoryDTO(String option1, String option2) {
-        this.option1 = option1;
-        this.option2 = option2;
+    public FoodCategoryDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
-
+    
 }

@@ -14,7 +14,7 @@ public class GeminiController {
 
     private final GeminiService geminiService;
 
-    @GetMapping("/gemini/chat")
+    @GetMapping("/gemini/question")
     public ResponseEntity<?> gemini(@RequestParam String prompt) {
         System.out.println(prompt);
         try {

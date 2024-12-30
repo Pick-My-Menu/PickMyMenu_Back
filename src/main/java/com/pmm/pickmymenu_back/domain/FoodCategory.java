@@ -1,9 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +9,11 @@ import lombok.Setter;
 public class FoodCategory {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer foodCategoryId; // 인덱스
+    private Long foodCategoryId; // 인덱스
 
-    private String categoryName; // 음식 이름
+    private String categoryName; // 카테고리 이름
 
-    private String categoryClassification; // 음식 구분
+    private int groupNumber; // 음식 그룹
 
 
 
