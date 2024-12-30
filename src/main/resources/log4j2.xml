@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+  <Properties>
+    <Property name="logPath">./logs</Property>
+    <Property name="logPattern">[%d{yyyy-MM-dd HH:mm:ss}] [%t] %-5level %logger{36} - %msg%n</Property>
+    <Property name="serviceName">app</Property>
+  </Properties>
+
+  <Appenders>
+    <!-- Console Appender with color -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, TRACE=magenta}"/>
+    </Console>
+
+    <!-- Rolling File Appender -->
+    <RollingFile
+      name="RollingFile"
+      append="true"
+      fileName="${logPath}/${serviceName}.log"
+      filePattern="${logPath}/${serviceName}.%d{yyyy-MM-dd}.%i.log.gz">
+      <PatternLayout pattern="${logPattern}"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="5MB"/>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+    </RollingFile>
+
+    <!-- Log file deletion policy -->
+    <DefaultRolloverStrategy>
+      <Delete basePath="${logPath}" maxDepth="1">
+        <IfFileName glob="${serviceName}.*.log"/>
+        <IfLastModified age="15d"/>
+      </Delete>
+    </DefaultRolloverStrategy>
+  </Appenders>
+
+  <Loggers>
+    <!-- Root logger configuration with logging levels -->
+    <Root level="info">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Root>
+
+    <!-- Example of a custom logger for a specific package -->
+    <Logger name="com.pmm.pickmymenu_back" level="debug" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+  </Loggers>
+</Configuration>
