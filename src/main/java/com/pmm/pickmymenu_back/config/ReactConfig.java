@@ -10,7 +10,11 @@ public class ReactConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // React 앱의 URL
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedOrigins("http://hhjnn92.synology.me:3000",
+                                "https://hhjnn92.synology.me:3001",
+                                "http://localhost:3000") // React 앱의 URL
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true); // 인증 정보 사용 가능
+
     }
 }

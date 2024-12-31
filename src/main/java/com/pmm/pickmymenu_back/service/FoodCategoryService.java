@@ -4,9 +4,12 @@ import com.pmm.pickmymenu_back.dto.FoodCategoryDTO;
 import com.pmm.pickmymenu_back.domain.FoodCategory;
 import com.pmm.pickmymenu_back.repository.FoodCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,17 +17,10 @@ public class FoodCategoryService {
 
     private final FoodCategoryRepository foodCategoryRepository;
 
-    public FoodCategoryDTO getRandomComparison() {
-        List<FoodCategory> randomCategories = foodCategoryRepository.findTwoRandomCategories();
-
-        if (randomCategories.size() < 2) {
-            throw new IllegalStateException("Not enough categories in the database to create a comparison.");
-        }
-
-        return new FoodCategoryDTO(
-                randomCategories.get(0).getCategoryName(),
-                randomCategories.get(1).getCategoryName()
-        );
+    public List<FoodCategoryDTO> getRandomSelections(int groupNumber, int limit) {
+        List<FoodCategory> categories = foodCategoryRepository.findRandomByGroup(groupNumber, limit);
+        return categories.stream()
+                .map(category -> new FoodCategoryDTO(category.getFoodCategoryId(), category.getCategoryName()))
+                .collect(Collectors.toList());
     }
-
 }

@@ -25,6 +25,7 @@ public class RestClientConfig {
                 }).build();
     }
 
+
     @Bean
     public WebClient kakaoRestClient(){
         return WebClient.builder()

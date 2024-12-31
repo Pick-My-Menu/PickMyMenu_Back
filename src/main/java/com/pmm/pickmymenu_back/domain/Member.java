@@ -32,7 +32,6 @@ public class Member extends TimeEntity {
     private String name;
 
     private String Gender;
-    
 
     // ResultMenu와의 일대다 관계 설정
     @OneToMany(mappedBy = "member")
