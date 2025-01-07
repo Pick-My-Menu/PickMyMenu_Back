@@ -28,6 +28,9 @@ public class FoodCategory {
 달콤한것
 짠것
 새콤한것
+
+
+
 요리 종류
 한식
 중식
@@ -37,6 +40,8 @@ public class FoodCategory {
 태국식
 멕시코식
 베트남식
+
+
 음식 형태
 밥
 면
@@ -46,6 +51,8 @@ public class FoodCategory {
 볶음
 구이
 튀김
+
+
 주요 재료
 육류
 해산물
@@ -54,6 +61,9 @@ public class FoodCategory {
 과일류
 유제품
 계란
+
+
+
 음식의 성격
 건강식
 디저트
@@ -61,6 +71,10 @@ public class FoodCategory {
 스낵
 정찬
 패스트푸드
+
+
+
+
 특정 음식
 떡볶이
 김밥
