@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.0'
+    id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
@@ -27,13 +27,32 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티 (로그인 구현 시 필요 01.06)
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.mysql:mysql-connector-j' // 수정된 MySQL 드라이버
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+    // JWT 의존성 (01.06)
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Javax Annotation API (01.06)
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+
+    // 서블릿 API (01.06)
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    // lombok 관련
+    annotationProcessor 'org.projectlombok:lombok'  // 컴파일 시 Lombok 어노테이션 처리
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.projectlombok:lombok'
+
+    // developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
