@@ -17,6 +17,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    configureEach {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 repositories {
@@ -26,6 +29,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티 (로그인 구현 시 필요 01.06)
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'com.mysql:mysql-connector-j' // 수정된 MySQL 드라이버
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -51,6 +56,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // h2 test only
+    runtimeOnly 'com.h2database:h2'
+    // webflux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // log4j2
+    implementation "org.springframework.boot:spring-boot-starter-log4j2"
 }
 
 tasks.named('test') {
