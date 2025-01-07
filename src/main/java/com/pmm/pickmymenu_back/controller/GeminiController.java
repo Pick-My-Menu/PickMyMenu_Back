@@ -18,7 +18,9 @@ public class GeminiController {
     public ResponseEntity<?> gemini(@RequestParam String prompt) {
         System.out.println(prompt);
         try {
-            return ResponseEntity.ok().body(geminiService.getContents(prompt + " 이것들이 포함된 식당에서 먹을 수 있는 음식 3가지 정도만 추천해줘. 대답은 한국말로."));
+            return ResponseEntity.ok().body(geminiService.getContents(prompt +
+                    " 이것들이 포함된 식당에서 먹을 수 있는 음식 3가지 정도만 추천해줘. 대답은 한국말로."
+            ));
         } catch (HttpClientErrorException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
