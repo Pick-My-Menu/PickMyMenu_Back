@@ -3,9 +3,11 @@ package com.pmm.pickmymenu_back.dto;
 import com.pmm.pickmymenu_back.domain.FoodCategory;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@NoArgsConstructor
 public class FoodCategoryDTO {
 
     private Long id; // 카테고리 ID
