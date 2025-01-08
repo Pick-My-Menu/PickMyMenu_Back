@@ -19,7 +19,10 @@ public class GeminiController {
         System.out.println(prompt);
         try {
             return ResponseEntity.ok().body(geminiService.getContents(prompt +
-                    " 이것들이 포함된 식당에서 먹을 수 있는 음식 3가지 정도만 추천해줘. 대답은 한국말로."
+                    " 이 키워드와 아래 조건을 가지고 음식 3가지만 추천해줘. 대답은 한국말로." +
+                    "1. 형용사는 빼고 정확한 음식 이름을 말한다." +
+                    "2. 식당에서 파는 음식명 이어야한다. " +
+                    "3. 주어진 두가지의 키워드와 최대한 부합하는 메뉴만 추천한다."
             ));
         } catch (HttpClientErrorException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
