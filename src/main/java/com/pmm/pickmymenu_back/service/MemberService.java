@@ -61,7 +61,6 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-
     // 로그인 로직
     public Map<String, String> loginProcess(MemberDTO memberDTO) {
         String email = memberDTO.getEmail();
@@ -77,7 +76,7 @@ public class MemberService {
         // 로그인 성공 시 JWT 발급
         String token = jwtUtil.generateToken(email); // JWT 생성
 
-        // 로그인 성공 후 token과 name을 함께 반환
-        return Map.of("token", token, "name", member.getName());
+        // 로그인 성공 후 token과 email을 함께 반환
+        return Map.of("token", token, "email", member.getEmail()); // 이메일과 token만 반환
     }
 }

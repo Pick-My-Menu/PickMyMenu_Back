@@ -46,15 +46,15 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // 로그인 처리 후 token과 name을 받아옴
+            // 로그인 처리 후 token과 email을 받아옴
             Map<String, String> loginResult = memberService.loginProcess(memberDTO);
 
-            // Map에서 token과 name을 추출하여 응답 객체에 추가
+            // 로그인 성공 후 token과 email을 추출하여 응답 객체에 추가
             String token = loginResult.get("token");
-            String name = loginResult.get("name");
+            String email = loginResult.get("email");
 
             response.put("token", token);
-            response.put("name", name);  // 이름도 반환
+            response.put("email", email);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> jwtChk(@RequestBody Map<String, String> tokens) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // loginId를 이메일로 변경하여 처리
+            // JWT 토큰을 검증하고 이메일을 추출하여 반환
             String email = jwtUtil.validateAndExtract(tokens.get("token"));
             response.put("email", email);  // 이메일 반환
 
@@ -79,5 +79,3 @@ public class MemberController {
         }
     }
 }
-
-
