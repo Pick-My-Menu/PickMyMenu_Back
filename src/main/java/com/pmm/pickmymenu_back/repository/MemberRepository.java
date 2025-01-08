@@ -9,7 +9,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 이메일 중복 확인
     Optional<Member> findByEmail(String email);
-    
+
     // 전화번호 중복확인
     Optional<Member> findByPhoneNumber(String phoneNumber);
 
