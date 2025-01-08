@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * ResultMenu 엔티티 클래스
- * 
+ *
  * - JPA를 사용하여 데이터베이스 테이블과 매핑
  * - 설문조사 그룹(surveyGroup)과 회원(member)의 결과 메뉴(menu)를 저장
  */
@@ -41,7 +41,7 @@ public class ResultMenu extends TimeEntity {
 
     /**
      * 정적 팩토리 메서드
-     * 
+     *
      * @param surveyGroup 설문조사 그룹
      * @param member 회원
      * @param menu 결과 메뉴

@@ -2,19 +2,17 @@ package com.pmm.pickmymenu_back.domain;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@Table(name = "member")
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Member extends TimeEntity {
 
     @Id
@@ -23,15 +21,28 @@ public class Member extends TimeEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+    private String loginId;  // 로그인 아이디 (회원가입 시 사용될 아이디)
 
     @Column(nullable = false)
     private String name;
 
-    private String Gender;
+    @Column(nullable = false)
+    private String password;
+
+//    @Column
+//    private String role; // 스프링 시큐리티와 함께 사용하면 Admin에게만 권한 부여
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column
+    private String birthdate;
+
+    @Column
+    private String phoneNumber;
+
+    @Column
+    private String gender;
 
     // ResultMenu와의 일대다 관계 설정
     @OneToMany(mappedBy = "member")
