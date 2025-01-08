@@ -26,4 +26,5 @@ public class Survey extends TimeEntity{
     @JoinColumn(name = "survey_group_id")
     private SurveyGroup surveyGroup;
 
+
 }

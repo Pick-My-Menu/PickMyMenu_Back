@@ -25,7 +25,7 @@ public class ResultMenu extends TimeEntity {
 
     @Id // 기본 키(PK)로 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // DB의 AUTO_INCREMENT 전략을 사용
-    @Column(name = "menu_result") // 테이블의 컬럼 이름을 지정
+    @Column(name = "menu_result_id") // 테이블의 컬럼 이름을 지정
     private Long id; // 기본 키 필드
 
     @ManyToOne(fetch = FetchType.LAZY) // 다대일 관계를 매핑하며 지연 로딩 전략을 사용
