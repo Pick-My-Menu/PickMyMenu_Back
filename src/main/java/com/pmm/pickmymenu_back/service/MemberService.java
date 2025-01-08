@@ -25,6 +25,7 @@ public class MemberService {
         String birthdate = memberDTO.getBirthdate();
         String phoneNumber = memberDTO.getPhoneNumber();
         String gender = memberDTO.getGender();
+        String name = memberDTO.getName();
 
         // 로그인 아이디 중복 확인
         boolean isLoginIdExist = memberRepository.existsByLoginId(loginId);
@@ -46,6 +47,7 @@ public class MemberService {
         member.setBirthdate(birthdate);
         member.setPhoneNumber(phoneNumber);
         member.setGender(gender);
+        member.setName(name);
 //        member.setRole("ROLE_USER");  // 기본 역할 설정
 
         memberRepository.save(member);

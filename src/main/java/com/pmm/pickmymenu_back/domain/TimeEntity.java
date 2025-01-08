@@ -30,9 +30,10 @@ public abstract class TimeEntity {
 
     @PrePersist
     @PreUpdate
-    public void onPersist(){
-        createdDate = createdDate.truncatedTo(ChronoUnit.SECONDS);
-        updatedDate = updatedDate.truncatedTo(ChronoUnit.SECONDS);
+    public void onPersist() {
+        if (createdDate == null) {
+            createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        }
+        updatedDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
-
 }
