@@ -3,6 +3,8 @@ package com.pmm.pickmymenu_back.service;
 import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.repository.MemberRepository;
+import com.pmm.pickmymenu_back.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +13,21 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JWTUtil jwtUtil;
 
-    public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    @Autowired
+    public MemberService(MemberRepository memberRepository,
+                         BCryptPasswordEncoder bCryptPasswordEncoder,
+                         JWTUtil jwtUtil) {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtUtil = jwtUtil;  // JWTUtil을 생성자를 통해 주입받기
     }
 
     // 회원가입 로직
     public void joinProcess(MemberDTO memberDTO) {
         String loginId = memberDTO.getLoginId();
+        String name =  memberDTO.getName(); // 01.08
         String password = memberDTO.getPassword();
         String email = memberDTO.getEmail();
         String birthdate = memberDTO.getBirthdate();
@@ -41,6 +49,7 @@ public class MemberService {
 
         // 새로운 사용자 생성
         Member member = new Member();
+        member.setName(name); // 01.08
         member.setLoginId(loginId);
         member.setPassword(bCryptPasswordEncoder.encode(password));  // 비밀번호 암호화
         member.setEmail(email);
@@ -51,6 +60,7 @@ public class MemberService {
 //        member.setRole("ROLE_USER");  // 기본 역할 설정
 
         memberRepository.save(member);
+
     }
 
     // 로그인 로직
@@ -66,6 +76,6 @@ public class MemberService {
         }
 
         // 로그인 성공 시 JWT 발급
-        return member.getLoginId();  // JWT를 발급하는 로직 추가 필요 (현재는 loginId 반환)
+        return jwtUtil.generateToken(loginId);  // 비정적 메소드 호출
     }
 }

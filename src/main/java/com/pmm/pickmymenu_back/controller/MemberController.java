@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.service.MemberService;
 import com.pmm.pickmymenu_back.util.JWTUtil;
@@ -24,11 +25,16 @@ public class MemberController {
         this.jwtUtil = jwtUtil;
     }
 
-    // 회원가입
+    // 회원가입 (회원정보만 폼데이터로 처리)
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody MemberDTO memberDTO) {
+    public ResponseEntity<String> join(@RequestParam("memberInfo") String memberInfoJson) {
         try {
-            memberService.joinProcess(memberDTO);  // 서비스에서 회원가입 처리
+            // JSON 문자열을 MemberDTO 객체로 변환
+            MemberDTO memberDTO = new ObjectMapper().readValue(memberInfoJson, MemberDTO.class);
+
+            // 서비스에서 회원가입 처리
+            memberService.joinProcess(memberDTO);
+
             return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("회원가입 실패: " + e.getMessage(), HttpStatus.BAD_REQUEST);
