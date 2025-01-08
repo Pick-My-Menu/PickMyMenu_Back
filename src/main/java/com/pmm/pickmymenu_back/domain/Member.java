@@ -21,7 +21,7 @@ public class Member extends TimeEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String loginId;  // 로그인 아이디 (회원가입 시 사용될 아이디)
+    private String email;   // 이메일로 회원가입 및 로그인
 
     @Column(nullable = false)
     private String name;
@@ -32,16 +32,13 @@ public class Member extends TimeEntity {
 //    @Column
 //    private String role; // 스프링 시큐리티와 함께 사용하면 Admin에게만 권한 부여
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column
+    @Column(nullable = false)
     private String birthdate;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column
+    @Column(nullable = false)
     private String gender;
 
     // ResultMenu와의 일대다 관계 설정

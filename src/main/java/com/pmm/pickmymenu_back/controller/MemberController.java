@@ -46,8 +46,16 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            String token = memberService.loginProcess(memberDTO);  // 서비스에서 로그인 처리
+            // 로그인 처리 후 token과 name을 받아옴
+            Map<String, String> loginResult = memberService.loginProcess(memberDTO);
+
+            // Map에서 token과 name을 추출하여 응답 객체에 추가
+            String token = loginResult.get("token");
+            String name = loginResult.get("name");
+
             response.put("token", token);
+            response.put("name", name);  // 이름도 반환
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("message", "로그인 실패: " + e.getMessage());
@@ -60,8 +68,10 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> jwtChk(@RequestBody Map<String, String> tokens) {
         Map<String, Object> response = new HashMap<>();
         try {
-            String loginId = jwtUtil.validateAndExtract(tokens.get("token"));
-            response.put("loginId", loginId);
+            // loginId를 이메일로 변경하여 처리
+            String email = jwtUtil.validateAndExtract(tokens.get("token"));
+            response.put("email", email);  // 이메일 반환
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("message", "토큰이 유효하지 않거나 만료되었습니다.");
@@ -69,3 +79,5 @@ public class MemberController {
         }
     }
 }
+
+
