@@ -1,6 +1,5 @@
 package com.pmm.pickmymenu_back.dto.response.map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import lombok.Data;
 public class PlaceSearchRes {
 
     private Meta meta;
-    private List<Documents> documents;
+    private List<Document> documents;
 
     @Data
     public static class Meta {
@@ -20,7 +19,7 @@ public class PlaceSearchRes {
     }
 
     @Data
-    public static class Documents {
+    public static class Document {
 
         private String address_name;
         private String category_group_code;
@@ -36,9 +35,12 @@ public class PlaceSearchRes {
         private Double y;
         private String image_url;
 
+        public void setImage_url(String image_url) {
+            this.image_url = image_url;
+        }
     }
 
-    public PlaceSearchRes(Meta meta, List<Documents> documents) {
+    public PlaceSearchRes(Meta meta, List<Document> documents) {
         this.meta = meta;
         this.documents = documents;
     }

@@ -17,7 +17,7 @@
       name="RollingFile"
       append="true"
       fileName="${logPath}/${serviceName}.log"
-      filePattern="${logPath}/${serviceName}.%d{yyyy-MM-dd}.%i.log.gz">
+      filePattern="${logPath}/${serviceName}.%d{yyyy-MM-dd}.%i.log">
       <PatternLayout pattern="${logPattern}"/>
       <Policies>
         <SizeBasedTriggeringPolicy size="5MB"/>
