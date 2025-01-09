@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +24,32 @@ public class Survey extends TimeEntity{
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_group_id")
-    private SurveyGroup surveyGroup;
+    @JoinColumn(name = "member_id", nullable = true)
+    private Member member;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "result_menu_id")
+    private ResultMenu resultMenu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_food_tree_id", nullable = false) // name 은 컬럼이름임
+    private FoodTree parentFoodTree;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "child_food_tree_id", nullable = false) // name 은 컬럼이름임
+    private FoodTree childFoodTree;
+
+    private Survey(Member member, ResultMenu resultMenu, FoodTree parentFoodTree,
+            FoodTree childFoodTree) {
+        this.member = member;
+        this.resultMenu = resultMenu;
+        this.parentFoodTree = parentFoodTree;
+        this.childFoodTree = childFoodTree;
+    }
+
+    public static Survey create(Member member, ResultMenu resultMenu, FoodTree parentFoodTree,
+            FoodTree childFoodTree) {
+        return new Survey(member, resultMenu, parentFoodTree, childFoodTree);
+    }
 
 }

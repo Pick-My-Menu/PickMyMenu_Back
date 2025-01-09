@@ -21,7 +21,14 @@ public class MapService {
     private final WebClient kakaoWebClient;
 
     public Mono<PlaceSearchRes> placeSearch(PlaceSearchReq req) {
-        return getSearchResult(req);
+        Mono<PlaceSearchRes> searchResult = getSearchResult(req);
+        Mono<PlaceSearchRes> map = searchResult.map(data -> {
+            System.out.println(data.getDocuments());
+            System.out.println(data.getDocuments().getClass());
+            return data;
+        });
+        return map;
+//        return getSearchResult(req)
 //                .flatMap(initialResult -> {
 //                    int pageableCount = initialResult.getMeta().getPageable_count();
 //                    if (pageableCount <= 1) {
