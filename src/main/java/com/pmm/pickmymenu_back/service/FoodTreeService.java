@@ -23,7 +23,7 @@ public class FoodTreeService {
 
         return twoCategories.stream()
                             .limit(2) // 2개 제한
-                            .map(f -> new FoodTreeDTO(f.getId(), f.getCategory()))
+                            .map(f -> new FoodTreeDTO(f.getId(), f.getCategory(), f.getLevel(), f.getParent()))
                             .collect(Collectors.toList());
     }
 
@@ -34,7 +34,7 @@ public class FoodTreeService {
 
         return child.stream()
                     .limit(2)
-                    .map(child2 -> new FoodTreeDTO(child2.getId(), child2.getCategory()))
+                    .map(child2 -> new FoodTreeDTO(child2.getId(), child2.getCategory(), child2.getLevel(), child2.getParent()))
                     .collect(Collectors.toList());
     }
 

@@ -43,6 +43,24 @@ public class Member extends TimeEntity {
 
     // ResultMenu와의 일대다 관계 설정
     @OneToMany(mappedBy = "member")
-    private List<ResultMenu> memberList;
+    private List<ResultMenu> resultMenuList;
+
+    @OneToMany(mappedBy = "member")
+    private List<Survey> surveyList;
+
+    private Member(String name, String password, String email,
+            String birthdate, String phoneNumber, String gender) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.birthdate = birthdate;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+    }
+
+    public static Member create(String name, String password, String email,
+            String birthdate, String phoneNumber, String gender) {
+        return new Member(name, password, email, birthdate, phoneNumber, gender);
+    }
 }
 
