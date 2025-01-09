@@ -23,18 +23,17 @@ public class FoodTreeService {
 
         return twoCategories.stream()
                             .limit(2) // 2개 제한
-                            .map(f -> new FoodTreeDTO(f.getId(), f.getCategory(), f.getLevel(), f.getParent()))
+                            .map(FoodTreeDTO::createByFoodTree)
                             .collect(Collectors.toList());
     }
 
     public List<FoodTreeDTO> getTwoChildCategories(Long parentId) {
         List<FoodTree> child = foodTreeRepository.findByParentId(parentId);
-
         Collections.shuffle(child);
 
         return child.stream()
                     .limit(2)
-                    .map(child2 -> new FoodTreeDTO(child2.getId(), child2.getCategory(), child2.getLevel(), child2.getParent()))
+                    .map(FoodTreeDTO::createByFoodTree)
                     .collect(Collectors.toList());
     }
 

@@ -65,6 +65,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-log4j2"
     //Jsoup
     implementation 'org.jsoup:jsoup:1.15.3'
+    // url
+//    implementation "io.netty:netty-resolver-dns-native-macos:4.1.94.Final"
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+
 
 }
 

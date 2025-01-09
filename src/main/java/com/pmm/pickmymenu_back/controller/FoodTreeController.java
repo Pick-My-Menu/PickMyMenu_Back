@@ -29,7 +29,6 @@ public class FoodTreeController {
     @GetMapping("/random/child")
     public ResponseEntity<List<FoodTreeDTO>> getTwoChildCategoreis(@RequestParam Long parentId){
         List<FoodTreeDTO> child = foodTreeService.getTwoChildCategories(parentId);
-
         return ResponseEntity.ok(child);
     }
 
