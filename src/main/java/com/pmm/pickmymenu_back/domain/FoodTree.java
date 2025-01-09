@@ -1,6 +1,7 @@
 package com.pmm.pickmymenu_back.domain;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,14 +21,17 @@ public class FoodTree {
 
     private Integer level;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_food_tree_id")
     private FoodTree parent;
 
-    @OneToMany(mappedBy = "parentFoodTree")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<FoodTree> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "parentFoodTree", fetch = FetchType.LAZY)
     private List<Survey> parentSurveyList;
 
-    @OneToMany(mappedBy = "childFoodTree")
+    @OneToMany(mappedBy = "childFoodTree", fetch = FetchType.LAZY)
     private List<Survey> childSurveyList;
 
     private FoodTree(String category, Integer level, FoodTree parent) {
