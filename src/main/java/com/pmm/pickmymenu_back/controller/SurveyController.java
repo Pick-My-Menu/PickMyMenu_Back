@@ -18,7 +18,9 @@ public class SurveyController {
 
     @PostMapping("/collect")
     public BaseResponse<Object> collect(@RequestBody SurveyCollectReq req) {
+        System.out.println("================");
         System.out.println(req);
+        System.out.println("================");
 
         boolean result = surveyService.collect(req);
         return BaseResponse.success(result);
