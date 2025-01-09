@@ -12,6 +12,8 @@ import com.pmm.pickmymenu_back.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SurveyService {
@@ -41,4 +43,9 @@ public class SurveyService {
 
         return true;
     }
+
+    public List<Object[]> getParentFoodTreeCategoryCount() {
+        return surveyRepository.countParentFoodTreeCategory();
+    }
+
 }
