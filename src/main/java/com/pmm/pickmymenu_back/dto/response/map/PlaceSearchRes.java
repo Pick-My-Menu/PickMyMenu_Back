@@ -8,7 +8,7 @@ import lombok.Data;
 public class PlaceSearchRes {
 
     private Meta meta;
-    private List<Object> documents;
+    private List<Documents> documents;
 
     @Data
     public static class Meta {
@@ -19,7 +19,26 @@ public class PlaceSearchRes {
         private Object same_name;
     }
 
-    public PlaceSearchRes(Meta meta, List<Object> documents) {
+    @Data
+    public static class Documents {
+
+        private String address_name;
+        private String category_group_code;
+        private String category_group_name;
+        private String category_name;
+        private Integer distance;
+        private Long id;
+        private String phone;
+        private String place_name;
+        private String place_url;
+        private String road_address_name;
+        private Double x;
+        private Double y;
+        private String image_url;
+
+    }
+
+    public PlaceSearchRes(Meta meta, List<Documents> documents) {
         this.meta = meta;
         this.documents = documents;
     }
