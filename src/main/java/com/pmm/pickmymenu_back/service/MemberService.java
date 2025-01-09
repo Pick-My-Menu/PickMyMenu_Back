@@ -28,16 +28,16 @@ public class MemberService {
 
     // 회원가입 로직
     public void joinProcess(MemberDTO memberDTO) {
-        String email = memberDTO.getEmail();
-        String name = memberDTO.getName();
-        String password = memberDTO.getPassword();
-        String birthdate = memberDTO.getBirthdate();
-        String phoneNumber = memberDTO.getPhoneNumber();
-        String gender = memberDTO.getGender();
+//        String email = memberDTO.getEmail();
+//        String name = memberDTO.getName();
+//        String password = memberDTO.getPassword();
+//        String birthdate = memberDTO.getBirthdate();
+//        String phoneNumber = memberDTO.getPhoneNumber();
+//        String gender = memberDTO.getGender();
 
         // 이메일과 전화번호 중복 확인
-        boolean isEmailExist = memberRepository.findByEmail(email).isPresent();
-        boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(phoneNumber).isPresent();
+        boolean isEmailExist = memberRepository.findByEmail(memberDTO.getEmail()).isPresent();
+        boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(memberDTO.getPhoneNumber()).isPresent();
 
         // 이메일 중복 확인
         if (isEmailExist) {
@@ -51,12 +51,12 @@ public class MemberService {
 
         // 새로운 사용자 생성
         Member member = new Member();
-        member.setEmail(email);
-        member.setName(name);
-        member.setPassword(bCryptPasswordEncoder.encode(password)); // 비밀번호 암호화
-        member.setBirthdate(birthdate);
-        member.setPhoneNumber(phoneNumber);
-        member.setGender(gender);
+        member.setEmail(memberDTO.getEmail());
+        member.setName(memberDTO.getName());
+        member.setPassword(bCryptPasswordEncoder.encode(memberDTO.getPassword())); // 비밀번호 암호화
+        member.setBirthdate(memberDTO.getBirthdate());
+        member.setPhoneNumber(memberDTO.getPhoneNumber());
+        member.setGender(memberDTO.getGender());
 
         memberRepository.save(member);
     }
@@ -74,9 +74,13 @@ public class MemberService {
         }
 
         // 로그인 성공 시 JWT 발급
-        String token = jwtUtil.generateToken(email); // JWT 생성
+        String token = jwtUtil.generateToken(email, member.getName()); // JWT 생성
 
-        // 로그인 성공 후 token과 email을 함께 반환
-        return Map.of("token", token, "email", member.getEmail()); // 이메일과 token만 반환
+        // 로그인 성공 후 token과 email,name을 함께 반환
+        return Map.of(
+                "token", token,
+                "email", member.getEmail(),
+                "name", member.getName() // 01.10
+        );
     }
 }

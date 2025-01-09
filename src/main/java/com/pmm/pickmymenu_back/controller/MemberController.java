@@ -52,9 +52,11 @@ public class MemberController {
             // 로그인 성공 후 token과 email을 추출하여 응답 객체에 추가
             String token = loginResult.get("token");
             String email = loginResult.get("email");
+            String name =  loginResult.get("name"); // 01.10
 
             response.put("token", token);
             response.put("email", email);
+            response.put("name", name);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
