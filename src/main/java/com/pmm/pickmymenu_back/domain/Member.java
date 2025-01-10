@@ -29,9 +29,6 @@ public class Member extends TimeEntity {
     @Column(nullable = false)
     private String password;
 
-//    @Column
-//    private String role; // 스프링 시큐리티와 함께 사용하면 Admin에게만 권한 부여
-
     @Column(nullable = false)
     private String birthdate;
 
