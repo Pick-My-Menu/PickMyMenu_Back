@@ -39,6 +39,19 @@ public class ResultMenu extends TimeEntity {
     @Column(name = "menu", nullable = false)
     private String menu;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+
+
+
     private ResultMenu(Member member, String menu) {
         this.member = member;
         this.menu = menu;

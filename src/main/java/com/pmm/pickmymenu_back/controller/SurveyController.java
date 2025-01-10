@@ -19,8 +19,8 @@ public class SurveyController {
     public BaseResponse<Object> collect(@RequestBody SurveyCollectReq req) {
         System.out.println(req);
 
-        boolean result = surveyService.collect(req);
-        return BaseResponse.success(result);
+        Long resultMenuId = surveyService.collect(req);
+        return BaseResponse.success(resultMenuId );
     }
 
     @GetMapping("/parentCount")
