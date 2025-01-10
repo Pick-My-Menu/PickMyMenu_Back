@@ -1,6 +1,6 @@
 package com.pmm.pickmymenu_back.dto.request.survey;
 
-import com.pmm.pickmymenu_back.dto.request.FoodTreeReq;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +13,24 @@ import lombok.ToString;
 @Builder
 @ToString
 public class SurveyCollectReq {
-    private FoodTreeReq parentCategory;
-    private FoodTreeReq childCategory;
-    private String selectedKeyword;
+    private List<SurveyCollect> list;
+    private String menu;
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SurveyCollect{
+        private Long id;
+        private String question0;
+        private String question1;
+        private boolean selected;
+
+        public String getSelected1() {
+            return this.selected ? this.question1 : this.question0;
+        }
+
+        public String getNotSelected() {
+            return this.selected ?  this.question0 : this.question1;
+        }
+    }
 }

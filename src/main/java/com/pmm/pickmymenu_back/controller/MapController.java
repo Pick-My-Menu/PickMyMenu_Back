@@ -21,11 +21,9 @@ import reactor.core.publisher.Mono;
 public class MapController {
 
     private final MapService mapService;
-    private final JWTUtil jwtUtil;
 
     @GetMapping("/placeSearch")
     public Mono<BaseResponse<PlaceSearchRes>> placeSearch(@ModelAttribute PlaceSearchReq req) {
         return mapService.placeSearch(req).map(BaseResponse::success);
-//        return BaseResponse.success(res);
     }
 }

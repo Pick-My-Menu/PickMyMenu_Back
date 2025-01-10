@@ -30,7 +30,7 @@ public class ResultMenu extends TimeEntity {
     private Long id; // 기본 키 필드
 
     @OneToOne(mappedBy = "resultMenu")
-    private Survey survey;
+    private SurveyGroup surveyGroup;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = true)
