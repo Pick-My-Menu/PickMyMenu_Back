@@ -23,7 +23,7 @@ public class SurveyService {
     private final FoodTreeRepository foodTreeRepository;
 
 
-    public boolean collect(SurveyCollectReq req) {
+    public Long collect(SurveyCollectReq req) {
 
         Member member = null;
 
@@ -38,10 +38,13 @@ public class SurveyService {
 
         ResultMenu resultMenu = ResultMenu.create(member, req.getSelectedKeyword());
         resultMenuRepository.save(resultMenu);
+        // 방금 저장된 resultMenu id값 반환
+        Long resultMenuId = resultMenu.getId();
+
         Survey survey = Survey.create(member, resultMenu, parentFoodTree, childFoodTree);
         surveyRepository.save(survey);
 
-        return true;
+        return resultMenuId;
     }
 
     public List<Object[]> getParentFoodTreeCategoryCount() {
