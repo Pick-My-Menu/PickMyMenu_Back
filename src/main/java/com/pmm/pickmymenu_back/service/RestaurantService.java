@@ -34,10 +34,7 @@ public class RestaurantService {
             return true;
         }
 
-        Restaurant restaurant = Restaurant.save(req.getId(), req.getPlaceName(),
-                req.getAddressName(), req.getRoadAddressName(), req.getPhone(),
-                req.getCategoryGroupCode(), req.getCategoryGroupName(), req.getCategoryName(),
-                req.getX(), req.getY(), req.getPlaceUrl(), req.getImageUrl(), req.getDistance());
+        Restaurant restaurant = Restaurant.save(req);
         restaurantRepository.save(restaurant);
 
         ResultMenu resultMenu = resultMenuRepository.findById(req.getResultMenuId())

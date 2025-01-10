@@ -44,8 +44,6 @@ public class RestaurantReq {
 
     private Integer distance;
 
-    private Integer count = 0;
-
     private Long resultMenuId;
 
 
