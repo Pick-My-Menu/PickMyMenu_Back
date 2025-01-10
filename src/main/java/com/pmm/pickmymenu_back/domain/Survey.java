@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.pmm.pickmymenu_back.dto.request.survey.SurveyCollectReq.SurveyCollect;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Survey extends TimeEntity{
+public class Survey extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,32 +24,34 @@ public class Survey extends TimeEntity{
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = true)
-    private Member member;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "result_menu_id")
-    private ResultMenu resultMenu;
+    @JoinColumn(name = "survey_group_id", nullable = false)
+    private SurveyGroup surveyGroup;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_food_tree_id", nullable = false) // name 은 컬럼이름임
-    private FoodTree parentFoodTree;
+    @JoinColumn(name = "choice_id", nullable = false)
+    private Choice choice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "child_food_tree_id", nullable = false) // name 은 컬럼이름임
-    private FoodTree childFoodTree;
+    @Column(nullable = false)
+    private String selected;
 
-    private Survey(Member member, ResultMenu resultMenu, FoodTree parentFoodTree,
-            FoodTree childFoodTree) {
-        this.member = member;
-        this.resultMenu = resultMenu;
-        this.parentFoodTree = parentFoodTree;
-        this.childFoodTree = childFoodTree;
+    @Column(nullable = false)
+    private String notSelected;
+
+    @Column(nullable = false)
+    private boolean isSelected;
+
+
+    private Survey(SurveyGroup surveyGroup, Choice choice, String selected, String notSelected,
+            boolean isSelected) {
+        this.surveyGroup = surveyGroup;
+        this.choice = choice;
+        this.selected = selected;
+        this.notSelected = notSelected;
+        this.isSelected = isSelected;
     }
 
-    public static Survey create(Member member, ResultMenu resultMenu, FoodTree parentFoodTree,
-            FoodTree childFoodTree) {
-        return new Survey(member, resultMenu, parentFoodTree, childFoodTree);
+    public static Survey create(SurveyGroup surveyGroup, Choice choice, SurveyCollect surveyCollect) {
+        return new Survey(surveyGroup, choice, surveyCollect.getSelected1(),
+                surveyCollect.getNotSelected(), surveyCollect.isSelected());
     }
-
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Restaurant extends TimeEntity{
+public class Restaurant extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,7 @@ public class Restaurant extends TimeEntity{
 
     private Integer distance;
 
-    private int count = 0;
+    private Integer count;
 
     @OneToMany(mappedBy = "restaurant")
     private List<ResultMenu> resultMenus;
@@ -52,7 +52,9 @@ public class Restaurant extends TimeEntity{
     }
 
 
-    public Restaurant(Long id, String placeName, String addressName, String roadAddressName, String phone, String categoryGroupCode, String categoryGroupName, String categoryName, Double x, Double y, String placeUrl, String imageUrl, Integer distance, int count) {
+    public Restaurant(Long id, String placeName, String addressName, String roadAddressName,
+            String phone, String categoryGroupCode, String categoryGroupName, String categoryName,
+            Double x, Double y, String placeUrl, String imageUrl, Integer distance) {
         this.id = id;
         this.placeName = placeName;
         this.addressName = addressName;
@@ -66,11 +68,15 @@ public class Restaurant extends TimeEntity{
         this.placeUrl = placeUrl;
         this.imageUrl = imageUrl;
         this.distance = distance;
-        this.count = count;
+        this.count = 1;
     }
 
-    public static Restaurant save(Long id, String placeName, String addressName, String roadAddressName, String phone, String categoryGroupCode, String categoryGroupName, String categoryName, Double x, Double y, String placeUrl, String imageUrl, Integer distance, int count) {
-        return new Restaurant(id, placeName, addressName, roadAddressName, phone, categoryGroupCode, categoryGroupName, categoryName, x, y, placeUrl, imageUrl, distance, count);
+    public static Restaurant save(Long id, String placeName, String addressName,
+            String roadAddressName, String phone, String categoryGroupCode,
+            String categoryGroupName, String categoryName, Double x, Double y, String placeUrl,
+            String imageUrl, Integer distance) {
+        return new Restaurant(id, placeName, addressName, roadAddressName, phone, categoryGroupCode,
+                categoryGroupName, categoryName, x, y, placeUrl, imageUrl, distance);
     }
 
 }

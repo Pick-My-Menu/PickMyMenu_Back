@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -40,10 +41,10 @@ public class Member extends TimeEntity {
 
     // ResultMenu와의 일대다 관계 설정
     @OneToMany(mappedBy = "member")
-    private List<ResultMenu> resultMenuList;
+    private List<ResultMenu> resultMenuList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Survey> surveyList;
+    private List<SurveyGroup> surveyGroupList = new ArrayList<>();
 
     private Member(String name, String password, String email,
             String birthdate, String phoneNumber, String gender) {

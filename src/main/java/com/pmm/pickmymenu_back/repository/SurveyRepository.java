@@ -10,10 +10,5 @@ import java.util.List;
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
-    @Query("SELECT ft.category, COUNT(s) FROM Survey s " +
-            "JOIN s.parentFoodTree ft " +
-            "GROUP BY ft.category " +
-            "ORDER BY COUNT(s) DESC")
-    List<Object[]> countParentFoodTreeCategory();
 
 }

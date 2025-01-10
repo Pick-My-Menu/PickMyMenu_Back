@@ -5,11 +5,14 @@ import com.pmm.pickmymenu_back.domain.ResultMenu;
 import com.pmm.pickmymenu_back.dto.request.restaurant.RestaurantReq;
 import com.pmm.pickmymenu_back.repository.RestaurantRepository;
 import com.pmm.pickmymenu_back.repository.ResultMenuRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
@@ -17,24 +20,28 @@ public class RestaurantService {
 
     public boolean saveInfo(RestaurantReq req) {
 
-        Restaurant existingRestaurant = restaurantRepository.findAllById(req.getId());
+        Optional<Restaurant> existingRestaurant = restaurantRepository.findById(req.getId());
 
-        if (existingRestaurant != null) {
-            existingRestaurant.incrementCount();
-            restaurantRepository.save(existingRestaurant);
+        if (existingRestaurant.isPresent()) {
+            Restaurant restaurant = existingRestaurant.get();
+            restaurant.incrementCount();
+            restaurantRepository.save(restaurant);
 
-            ResultMenu resultMenu = resultMenuRepository.findById(req.getResultMenuId()).orElseThrow(() -> new RuntimeException("일치하는 ResultMenu가 없습니다."));
-            resultMenu.setRestaurant(existingRestaurant);
+            ResultMenu resultMenu = resultMenuRepository.findById(req.getResultMenuId())
+                    .orElseThrow(() -> new RuntimeException("일치하는 ResultMenu가 없습니다."));
+            resultMenu.setRestaurant(restaurant);
             resultMenuRepository.save(resultMenu);
             return true;
         }
 
-        Restaurant restaurant = Restaurant.save(req.getId(), req.getPlaceName(), req.getAddressName(), req.getRoadAddressName(), req.getPhone(),
+        Restaurant restaurant = Restaurant.save(req.getId(), req.getPlaceName(),
+                req.getAddressName(), req.getRoadAddressName(), req.getPhone(),
                 req.getCategoryGroupCode(), req.getCategoryGroupName(), req.getCategoryName(),
-                req.getX(), req.getY(), req.getPlaceUrl(), req.getImageUrl(), req.getDistance(), req.getCount());
+                req.getX(), req.getY(), req.getPlaceUrl(), req.getImageUrl(), req.getDistance());
         restaurantRepository.save(restaurant);
 
-        ResultMenu resultMenu = resultMenuRepository.findById(req.getResultMenuId()).orElseThrow(() -> new RuntimeException("일치하는 ResultMenu가 없습니다."));
+        ResultMenu resultMenu = resultMenuRepository.findById(req.getResultMenuId())
+                .orElseThrow(() -> new RuntimeException("일치하는 ResultMenu가 없습니다."));
         resultMenu.setRestaurant(restaurant);
         resultMenuRepository.save(resultMenu);
 
