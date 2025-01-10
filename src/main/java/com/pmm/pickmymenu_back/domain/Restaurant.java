@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.pmm.pickmymenu_back.dto.request.restaurant.RestaurantReq;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -71,12 +72,11 @@ public class Restaurant extends TimeEntity {
         this.count = 1;
     }
 
-    public static Restaurant save(Long id, String placeName, String addressName,
-            String roadAddressName, String phone, String categoryGroupCode,
-            String categoryGroupName, String categoryName, Double x, Double y, String placeUrl,
-            String imageUrl, Integer distance) {
-        return new Restaurant(id, placeName, addressName, roadAddressName, phone, categoryGroupCode,
-                categoryGroupName, categoryName, x, y, placeUrl, imageUrl, distance);
+    public static Restaurant save(RestaurantReq req) {
+        return new Restaurant(req.getId(), req.getPlaceName(), req.getAddressName(),
+                req.getRoadAddressName(), req.getAddressName(), req.getAddressName(),
+                req.getCategoryName(), req.getCategoryName(), req.getX(), req.getY(),
+                req.getPlaceUrl(), req.getImageUrl(), req.getDistance());
     }
 
 }

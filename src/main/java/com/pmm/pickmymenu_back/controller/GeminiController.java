@@ -17,14 +17,14 @@ public class GeminiController {
 
     @GetMapping("/gemini/question")
     public ResponseEntity<?> gemini(@RequestParam String select) {
-
-        System.out.println(select);
         try {
             return ResponseEntity.ok().body(geminiService.getContents(select +
-                    " 이 키워드와 아래 조건을 가지고 음식 3가지만 추천해줘. 대답은 한국말로." +
-                    "1. 음식의 설명은 뺴고 음식의 이름말 알려준다" +
-                    "2. 식당에서 파는 음식명 이어야한다. " +
-                    "3. 주어진 두가지의 키워드와 최대한 부합하는 메뉴만 추천한다."
+                    "I recommend food that corresponds to this keyword\n"
+                    + "You know all the restaurants that exist in Korea\n"
+                    + "I know all the knowledge associated with the characteristics of the material\n"
+                    + "When I recommend food, I recommend three kinds of food\n"
+                    + "I don't need an explanation of the food. Just tell me the name of the food\n"
+                    + "Please answer in Korean"
             ));
         } catch (HttpClientErrorException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
