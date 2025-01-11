@@ -45,7 +45,7 @@ dependencies {
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     // 서블릿 API (01.06)
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'  // 수정된 부분
 
     // lombok 관련
     annotationProcessor 'org.projectlombok:lombok'  // 컴파일 시 Lombok 어노테이션 처리
