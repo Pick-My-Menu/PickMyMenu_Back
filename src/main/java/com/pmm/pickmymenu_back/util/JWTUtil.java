@@ -33,12 +33,12 @@ public class JWTUtil {
     }
 
     // JWT 생성
-    public String generateToken(String email, String name) {  // loginId 대신 email 사용
+    public String generateToken(String email, String name) {
         long expirationTime = 1000 * 60 * 60;  // 1시간 (밀리초 단위)
 
         return Jwts.builder()
                 .setSubject(email)  // 사용자 이메일을 Subject로 설정
-                .claim("name", name)    // 01.10
+                .claim("name", name)
                 .setIssuer(issuer)     // issuer 설정
                 .setIssuedAt(new Date())  // 발급 일시
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))  // 만료 일시 (1시간)
@@ -54,7 +54,7 @@ public class JWTUtil {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.get("name", String.class);  // 토큰에서 사용자 이메일 반환 //01.10
+        return claims.getSubject(); // token에서 email반환
     }
 }
 

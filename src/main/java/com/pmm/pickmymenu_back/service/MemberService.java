@@ -28,12 +28,6 @@ public class MemberService {
 
     // 회원가입 로직
     public void joinProcess(MemberDTO memberDTO) {
-//        String email = memberDTO.getEmail();
-//        String name = memberDTO.getName();
-//        String password = memberDTO.getPassword();
-//        String birthdate = memberDTO.getBirthdate();
-//        String phoneNumber = memberDTO.getPhoneNumber();
-//        String gender = memberDTO.getGender();
 
         // 이메일과 전화번호 중복 확인
         boolean isEmailExist = memberRepository.findByEmail(memberDTO.getEmail()).isPresent();
@@ -74,12 +68,11 @@ public class MemberService {
         }
 
         // 로그인 성공 시 JWT 발급
-        String token = jwtUtil.generateToken(email, member.getName()); // JWT 생성
+        String token = jwtUtil.generateToken(email, member.getName());
 
-        // 로그인 성공 후 token과 email,name을 함께 반환
+        // 로그인 성공 후 token과 name을 함께 반환
         return Map.of(
                 "token", token,
-                "email", member.getEmail(),
                 "name", member.getName() // 01.10
         );
     }
