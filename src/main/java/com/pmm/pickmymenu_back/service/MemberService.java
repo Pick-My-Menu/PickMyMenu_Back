@@ -28,17 +28,13 @@ public class MemberService {
 
     // 회원가입 로직
     public void joinProcess(MemberDTO memberDTO) {
-
-        // 이메일과 전화번호 중복 확인
         boolean isEmailExist = memberRepository.findByEmail(memberDTO.getEmail()).isPresent();
         boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(memberDTO.getPhoneNumber()).isPresent();
 
-        // 이메일 중복 확인
         if (isEmailExist) {
             throw new IllegalArgumentException("이미 등록된 이메일입니다.");
         }
 
-        // 전화번호 중복 확인
         if (isPhoneNumberExist) {
             throw new IllegalArgumentException("이미 등록된 전화번호입니다.");
         }
@@ -60,11 +56,13 @@ public class MemberService {
         String email = memberDTO.getEmail();
         String password = memberDTO.getPassword();
 
+        // 이메일 존재 여부 확인
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
+        // 비밀번호 일치 여부 확인
         if (!bCryptPasswordEncoder.matches(password, member.getPassword())) {
-            throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
         // 로그인 성공 시 JWT 발급
@@ -73,7 +71,14 @@ public class MemberService {
         // 로그인 성공 후 token과 name을 함께 반환
         return Map.of(
                 "token", token,
-                "name", member.getName() // 01.10
+                "name", member.getName()
         );
     }
+
+    // 이메일 중복 확인 메서드
+    public boolean isEmailExist(String email) {
+        String normalizedEmail = email.trim().toLowerCase(); // 이메일 정규화
+        return memberRepository.findByEmail(normalizedEmail).isPresent();
+    }
+
 }

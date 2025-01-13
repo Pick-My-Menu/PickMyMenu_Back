@@ -54,7 +54,7 @@ public class JWTUtil {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.getSubject(); // token에서 email반환
+        return claims.getSubject();
     }
 }
 
