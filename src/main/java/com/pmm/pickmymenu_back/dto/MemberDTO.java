@@ -11,10 +11,6 @@ public class MemberDTO {
 
     private String password;           // 비밀번호 (암호화된 비밀번호)
 
-    private String sessionInfo;        // 세션 정보
-
-    private String sessionLogin;       // 로그인 세션 상태
-
     private String email;              // 이메일 (로그인 및 회원가입 시 사용)
 
     private String phoneNumber;        // 전화번호
