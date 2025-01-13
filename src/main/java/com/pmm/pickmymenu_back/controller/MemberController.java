@@ -83,6 +83,15 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        // 쿠키를 만료시키기 위한 헤더 설정
+        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
+        responseBuilder.header("Set-Cookie", "token=; Max-Age=0; Path=/; HttpOnly");
+
+        return responseBuilder.body("로그아웃 성공");
+    }
+
     // 이메일 중복 확인
     @GetMapping("/check-email")
     public ResponseEntity<Map<String, String>> checkEmail(@RequestParam String email) {
@@ -102,7 +111,6 @@ public class MemberController {
     }
 
 
-    // JWT 확인
     @PostMapping("/jwtChk")
     public ResponseEntity<String> jwtChk(@CookieValue(value = "token", required = false) String token) {
         try {
@@ -112,9 +120,20 @@ public class MemberController {
 
             // JWT 검증
             String email = jwtUtil.validateAndExtract(token);
+
+            // JWT가 만료되었으면 쿠키를 삭제하고 응답
+            if (jwtUtil.isTokenExpired(token)) {
+                // ResponseEntity 방식으로 쿠키 삭제
+                ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+                responseBuilder.header("Set-Cookie", "token=; Max-Age=0; Path=/; HttpOnly");
+
+                return responseBuilder.body("토큰이 만료되어 로그아웃 처리되었습니다.");
+            }
+
             return ResponseEntity.ok("인증 성공: " + email);
         } catch (Exception e) {
             return new ResponseEntity<>("인증 실패: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
+
 }

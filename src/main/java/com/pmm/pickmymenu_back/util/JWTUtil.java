@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
-import java.util.UUID;  // UUID 임포트
+import java.util.UUID;
 
 @Component
 public class JWTUtil {
@@ -48,7 +48,7 @@ public class JWTUtil {
 
     // JWT 검증 및 추출
     public String validateAndExtract(String token) {
-        Claims claims = Jwts.parserBuilder()
+        Claims claims = Jwts.parserBuilder()  // 변경된 부분
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
@@ -56,5 +56,19 @@ public class JWTUtil {
 
         return claims.getSubject();
     }
-}
 
+    // JWT가 만료되었는지 확인하는 메서드
+    public boolean isTokenExpired(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()  // 변경된 부분
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());  // 만약 만료 시간이 현재 시간 이전이면 true 반환
+        } catch (Exception e) {
+            return false;  // 예외 발생 시 (예: 잘못된 토큰) false 반환
+        }
+    }
+}
