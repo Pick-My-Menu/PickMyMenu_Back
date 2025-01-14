@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +64,28 @@ public class MemberService {
                 "name", member.getName()
         );
     }
+
+    // 마이페이지 조회
+    public MemberDTO getMemberInfo(String email) {
+        // 이메일로 멤버 조회
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
+
+        // Member 엔티티를 MemberDTO로 변환
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setEmail(member.getEmail());
+        memberDTO.setName(member.getName());
+        memberDTO.setPhoneNumber(member.getPhoneNumber());
+        memberDTO.setBirthdate(member.getBirthdate());
+        memberDTO.setGender(member.getGender());
+
+        // 가입 날짜를 yyyy-MM-dd 형식으로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        memberDTO.setCreatedDate(member.getCreatedDate().format(formatter));
+
+        return memberDTO;
+    }
+
 
     // 이메일 중복 확인 메서드
     public MemberEmailCheckRes isEmailExist(String email) {

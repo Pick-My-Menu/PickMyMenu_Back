@@ -70,6 +70,27 @@ public class MemberController {
         }
     }
 
+    // 마이페이지 정보 조회
+    @GetMapping("/mypage")
+    public ResponseEntity<MemberDTO> getMyPage(@CookieValue(value = "token", required = false) String token) {
+        try {
+            if (token == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 토큰 없음
+            }
+
+            // JWT에서 이메일 추출
+            String email = jwtUtil.validateAndExtract(token);
+
+            // 서비스에서 사용자 정보 가져오기
+            MemberDTO memberDTO = memberService.getMemberInfo(email);
+
+            return ResponseEntity.ok(memberDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 인증 실패
+        }
+    }
+
+    // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
         // 쿠키를 만료시키기 위한 헤더 설정
@@ -86,7 +107,7 @@ public class MemberController {
         return BaseResponse.success(result);
     }
 
-
+    // jwt
     @PostMapping("/jwtChk")
     public ResponseEntity<String> jwtChk(
             @CookieValue(value = "token", required = false) String token) {
