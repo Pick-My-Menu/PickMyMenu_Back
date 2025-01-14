@@ -48,9 +48,9 @@ public class MemberController {
 
     // 마이페이지 정보 조회
     @GetMapping("/mypage")
-    public ResponseEntity<MemberMyPageRes> getMyPage(@CookieValue(value = "token", required = false) String token) {
+    public BaseResponse<MemberMyPageRes> getMyPage(@CookieValue(value = "token", required = false) String token) {
         MemberMyPageRes result = memberService.getMemberInfo(token);
-        return ResponseEntity.ok(result);
+        return BaseResponse.success(result);
     }
 
     // 로그아웃
