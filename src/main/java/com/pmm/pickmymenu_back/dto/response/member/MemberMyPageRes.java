@@ -1,6 +1,7 @@
 package com.pmm.pickmymenu_back.dto.response.member;
 
 import com.pmm.pickmymenu_back.domain.Member;
+import com.pmm.pickmymenu_back.util.CustomUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,6 @@ public class MemberMyPageRes {
         this.phoneNumber = member.getPhoneNumber();
         this.birthdate = member.getBirthdate();
         this.gender = member.getGender();
-        this.createdDate = member.getBirthdate();
+        this.createdDate = CustomUtil.formatter(member.getCreatedDate());
     }
 }
