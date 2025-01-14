@@ -31,9 +31,9 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody MemberJoinReq req) {
+    public BaseResponse<String> join(@RequestBody MemberJoinReq req) {
         memberService.joinProcess(req);
-        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
+        return BaseResponse.success("회원가입 성공");
     }
 
     // 로그인
