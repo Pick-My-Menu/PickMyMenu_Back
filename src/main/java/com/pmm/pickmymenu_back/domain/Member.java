@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,8 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "member")
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends TimeEntity {
 
     @Id
@@ -56,9 +56,14 @@ public class Member extends TimeEntity {
         this.gender = gender;
     }
 
-    public static Member create(String name, String password, String email,
-            String birthdate, String phoneNumber, String gender) {
-        return new Member(name, password, email, birthdate, phoneNumber, gender);
+    public static Member create(MemberJoinReq member) {
+        return new Member(
+                member.getName(),
+                member.getPassword(),
+                member.getEmail(),
+                member.getBirthdate(),
+                member.getPhoneNumber(),
+                member.getGender()
+        );
     }
 }
-

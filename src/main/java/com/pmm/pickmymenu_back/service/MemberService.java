@@ -2,53 +2,42 @@ package com.pmm.pickmymenu_back.service;
 
 import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.domain.Member;
+import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
+import com.pmm.pickmymenu_back.dto.response.member.MemberEmailCheckRes;
+import com.pmm.pickmymenu_back.exception.MemberException;
 import com.pmm.pickmymenu_back.repository.MemberRepository;
 import com.pmm.pickmymenu_back.util.JWTUtil;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTUtil jwtUtil;
 
-    @Autowired
-    public MemberService(MemberRepository memberRepository,
-                         BCryptPasswordEncoder bCryptPasswordEncoder,
-                         JWTUtil jwtUtil) {
-        this.memberRepository = memberRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
 
     // 회원가입 로직
-    public void joinProcess(MemberDTO memberDTO) {
-        boolean isEmailExist = memberRepository.findByEmail(memberDTO.getEmail()).isPresent();
-        boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(memberDTO.getPhoneNumber()).isPresent();
+    public void joinProcess(MemberJoinReq req) {
 
-        if (isEmailExist) {
-            throw new IllegalArgumentException("이미 등록된 이메일입니다.");
-        }
+        boolean isEmailExist = memberRepository.findByEmail(req.getEmail()).isPresent();
+        if (isEmailExist) throw new IllegalArgumentException("이미 등록된 이메일입니다.");
 
-        if (isPhoneNumberExist) {
-            throw new IllegalArgumentException("이미 등록된 전화번호입니다.");
-        }
+        boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(req.getPhoneNumber()).isPresent();
+        if (isPhoneNumberExist) throw new IllegalArgumentException("이미 등록된 전화번호입니다.");
 
-        // 새로운 사용자 생성
-        Member member = new Member();
-        member.setEmail(memberDTO.getEmail());
-        member.setName(memberDTO.getName());
-        member.setPassword(bCryptPasswordEncoder.encode(memberDTO.getPassword())); // 비밀번호 암호화
-        member.setBirthdate(memberDTO.getBirthdate());
-        member.setPhoneNumber(memberDTO.getPhoneNumber());
-        member.setGender(memberDTO.getGender());
-
+        req.setPassword(bCryptPasswordEncoder.encode(req.getPassword()));
+        Member member = Member.create(req);
         memberRepository.save(member);
     }
 
@@ -99,9 +88,13 @@ public class MemberService {
 
 
     // 이메일 중복 확인 메서드
-    public boolean isEmailExist(String email) {
+    public MemberEmailCheckRes isEmailExist(String email) {
         String normalizedEmail = email.trim().toLowerCase(); // 이메일 정규화
-        return memberRepository.findByEmail(normalizedEmail).isPresent();
+        Optional<Member> existEmail = memberRepository.findByEmail(normalizedEmail);
+        if (existEmail.isPresent()) {
+            throw new MemberException("이미 등록된 이메일입니다.");
+        }
+        return new MemberEmailCheckRes("사용 가능한 이메일입니다.");
     }
 
 }
