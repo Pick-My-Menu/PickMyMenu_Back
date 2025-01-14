@@ -1,0 +1,88 @@
+name: Deploy Spring Boot API to Synology NAS
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시할 때마다 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Java 설치
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Gradle 설치
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v2
+        with:
+          gradle-version: '7.5'
+
+      # application.yml 파일 생성 (GitHub Secrets에서 가져오기)
+      - name: Create application.yml from GitHub Secrets
+        run: |
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+
+      # Gradle 빌드
+      - name: Build Spring Boot with Gradle
+        run: ./gradlew clean build
+
+      # DockerHub 로그인
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Docker Buildx 설정
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Docker 이미지 빌드
+      - name: Build Docker image
+        run: |
+          docker build --no-cache -t pmmback .  
+
+      # Docker 이미지를 DockerHub에 푸시
+      - name: Push Docker image to DockerHub
+        run: |
+          docker tag pmmback ${{ secrets.DOCKER_USERNAME }}/pmmback:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/pmmback:latest
+
+      # SSH 연결 테스트
+      - name: Test SSH connection to Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo 'SSH connection successful'"
+
+      # 기존에 실행 중인 컨테이너 중지
+      - name: Stop existing container on Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker stop pmmback"
+
+      # 기존에 실행 중인 컨테이너 삭제
+      - name: Remove existing container on Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker rm pmmback"
+
+      # 기존 이미지 삭제
+      - name: Remove existing image on Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker rmi ${{ secrets.DOCKER_USERNAME }}/pmmback:latest"
+
+      # 도커 이미지 받아오기
+      - name: Pull Docker image from DockerHub to Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker pull ${{ secrets.DOCKER_USERNAME }}/pmmback:latest"
+
+      # 새로운 컨테이너 실행
+      - name: Run new container on Synology NAS
+        run: |
+          sshpass -p "${{ secrets.SYNOLGY_PASSWORD }}" ssh -o StrictHostKeyChecking=no hhjnn92@hhjnn92.synology.me "echo '${{ secrets.SYNOLGY_PASSWORD }}' | sudo -S /usr/local/bin/docker run --name pmmback -d -p 3010:3010 ${{ secrets.DOCKER_USERNAME }}/pmmback:latest"
