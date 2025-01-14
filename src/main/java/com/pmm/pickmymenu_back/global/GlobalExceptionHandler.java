@@ -1,6 +1,7 @@
 package com.pmm.pickmymenu_back.global;
 
 import com.pmm.pickmymenu_back.dto.BaseResponse;
+import com.pmm.pickmymenu_back.exception.MemberException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,17 @@ import org.springframework.web.context.request.WebRequest;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(MemberException.class)
+    public BaseResponse<String> handleMemberException(Exception e, WebRequest req) throws MemberException{
+        log.error("Exception : {}", e.getMessage());
+        log.error("Uri : {}", req.getDescription(false));
+        return BaseResponse.fail(e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public BaseResponse<String> handleException(Exception e, WebRequest req) throws Exception{
         log.error("Exception : {}", e.getMessage());
-        log.error("WebRequest : {}", req.getContextPath());
+        log.error("Uri : {}", req.getDescription(false));
         return BaseResponse.fail(e.getMessage());
     }
 }

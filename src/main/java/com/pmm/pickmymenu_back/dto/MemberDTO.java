@@ -1,8 +1,12 @@
 package com.pmm.pickmymenu_back.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
 
     private Long id;          // 회원 번호 (고유 식별자)
