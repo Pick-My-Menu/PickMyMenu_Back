@@ -4,6 +4,7 @@ import com.pmm.pickmymenu_back.dto.BaseResponse;
 import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
+import com.pmm.pickmymenu_back.dto.request.member.PasswordVerifyReq;
 import com.pmm.pickmymenu_back.dto.response.member.MemberEmailCheckRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberLoginRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberMyPageRes;
@@ -11,7 +12,6 @@ import com.pmm.pickmymenu_back.service.MemberService;
 import com.pmm.pickmymenu_back.util.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -41,11 +41,23 @@ public class MemberController {
     // 로그인
     @PostMapping("/login")
     public BaseResponse<MemberLoginRes> login(@RequestBody MemberLoginReq req, HttpServletResponse res) {
-        System.out.println(req);
         MemberLoginRes result = memberService.loginProcess(req, res);
         return BaseResponse.success(result);
     }
-
+    
+    // 수정페이지 가기 전 비밀번호 확인
+    @PostMapping("/verify-password")
+    public BaseResponse<Boolean> verifyPassword(
+            @CookieValue(value = "token", required = false) String token,
+            @RequestBody PasswordVerifyReq req) {
+        boolean result = memberService.verifyPassword(token, req.getPassword());
+        if (result) {
+            return BaseResponse.success(true);
+        } else {
+            return BaseResponse.fail("비밀번호가 일치하지 않습니다.");
+        }
+    }
+    
     // 마이페이지 정보 조회
     @GetMapping("/mypage")
     public BaseResponse<MemberMyPageRes> getMyPage(@CookieValue(value = "token", required = false) String token) {
