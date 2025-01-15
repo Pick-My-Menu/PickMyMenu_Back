@@ -1,6 +1,5 @@
 package com.pmm.pickmymenu_back.service;
 
-import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
