@@ -72,6 +72,16 @@ public class MemberService {
         return new MemberMyPageRes(member);
     }
 
+    // 수정페이지 가기 전 비밀번호 확인
+    public boolean verifyPassword(String token, String password) {
+        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
+
+        String email = jwtUtil.validateAndExtract(token); // `token`에서 `email` 추출
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+
+        return bCryptPasswordEncoder.matches(password, member.getPassword()); // 비밀번호 확인
+    }
 
     // 이메일 중복 확인 메서드
     public MemberEmailCheckRes isEmailExist(String email) {
