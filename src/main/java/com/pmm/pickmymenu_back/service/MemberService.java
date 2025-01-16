@@ -100,10 +100,21 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
 
+        // 전화번호가 변경되었을 때만 중복 확인을 하도록
+        if (!member.getPhoneNumber().equals(memberUpdateReq.getPhoneNumber())) {
+            boolean isPhoneNumberExist = memberRepository.findByPhoneNumber(memberUpdateReq.getPhoneNumber()).isPresent();
+            if (isPhoneNumberExist) {
+                throw new MemberException("이미 등록된 전화번호입니다.");
+            }
+        }
+
         // 회원 정보 업데이트
-        member.updateMember(null, memberUpdateReq.getPhoneNumber(),
-                memberUpdateReq.getPassword() != null ?
-                        bCryptPasswordEncoder.encode(memberUpdateReq.getPassword()) : null);
+        member.updateMember(
+                member.getName(), // 이름은 수정하지 않으므로 기존 이름 그대로
+                memberUpdateReq.getPhoneNumber(),
+                (memberUpdateReq.getPassword() == null || memberUpdateReq.getPassword().isEmpty()) ?
+                        member.getPassword() : bCryptPasswordEncoder.encode(memberUpdateReq.getPassword()) // 비밀번호 수정이 있을 때만 변경
+        );
 
         // 저장
         memberRepository.save(member);
