@@ -66,4 +66,15 @@ public class Member extends TimeEntity {
                 member.getGender()
         );
     }
+
+    // 회원 정보 업데이트 메서드
+    public void updateMember(String name, String phoneNumber, String password) {
+        // name은 수정하지 않음
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            this.phoneNumber = phoneNumber;
+        }
+        if (password != null && !password.isEmpty()) {
+            this.password = password;
+        }
+    }
 }
