@@ -3,6 +3,7 @@ package com.pmm.pickmymenu_back.service;
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
+import com.pmm.pickmymenu_back.dto.request.member.MemberUpdateReq;
 import com.pmm.pickmymenu_back.dto.response.member.MemberEmailCheckRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberLoginRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberMyPageRes;
@@ -90,5 +91,29 @@ public class MemberService {
         }
         return new MemberEmailCheckRes("사용 가능한 이메일입니다.");
     }
+
+    // 회원 정보 수정
+    public boolean updateMember(MemberUpdateReq memberUpdateReq, String token) {
+        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
+
+        String email = jwtUtil.validateAndExtract(token); // `token`에서 `email` 추출
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+
+        // 회원 정보 업데이트
+        member.updateMember(null, memberUpdateReq.getPhoneNumber(),
+                memberUpdateReq.getPassword() != null ?
+                        bCryptPasswordEncoder.encode(memberUpdateReq.getPassword()) : null);
+
+        // 저장
+        memberRepository.save(member);
+        return true; // 업데이트 성공
+    }
+
+    public boolean checkPhoneNumber(String phoneNumber) {
+        Optional<Member> existingMember = memberRepository.findByPhoneNumber(phoneNumber);
+        return !existingMember.isPresent();  // 전화번호가 없다면 사용 가능
+    }
+
 
 }

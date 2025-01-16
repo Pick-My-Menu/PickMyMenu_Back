@@ -4,6 +4,7 @@ import com.pmm.pickmymenu_back.dto.BaseResponse;
 import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
+import com.pmm.pickmymenu_back.dto.request.member.MemberUpdateReq;
 import com.pmm.pickmymenu_back.dto.request.member.PasswordVerifyReq;
 import com.pmm.pickmymenu_back.dto.response.member.MemberEmailCheckRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberLoginRes;
@@ -14,13 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/member")
@@ -80,6 +79,35 @@ public class MemberController {
     public BaseResponse<MemberEmailCheckRes> checkEmail(@RequestParam String email) {
         MemberEmailCheckRes result = memberService.isEmailExist(email);
         return BaseResponse.success(result);
+    }
+
+    @PutMapping("/update")
+    public BaseResponse<String> updateMember(@RequestBody MemberUpdateReq memberUpdateReq,
+                                             @CookieValue(value = "token", required = false) String token) {
+        // 비밀번호 확인, 토큰 유효성 검사 등을 추가할 수 있음
+        boolean isUpdated = memberService.updateMember(memberUpdateReq, token);
+
+        if (isUpdated) {
+            return BaseResponse.success("회원 정보가 성공적으로 업데이트 되었습니다.");
+        } else {
+            return BaseResponse.fail("회원 정보 업데이트에 실패했습니다.");
+        }
+    }
+
+    @GetMapping("/check-phone")
+    public ResponseEntity<Map<String, Object>> checkPhoneNumber(@RequestParam String phoneNumber) {
+        Map<String, Object> response = new HashMap<>();
+        boolean isAvailable = memberService.checkPhoneNumber(phoneNumber); // 전화번호 중복 체크 로직
+
+        if (isAvailable) {
+            response.put("success", true);
+            response.put("message", "사용 가능한 전화번호입니다.");
+        } else {
+            response.put("success", false);
+            response.put("message", "이미 사용 중인 전화번호입니다.");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     // jwt
