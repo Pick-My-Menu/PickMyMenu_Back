@@ -20,20 +20,12 @@ public class SurveyController {
     private final SurveyService surveyService;
 
     @PostMapping("/collect")
-    public BaseResponse<Long> collect
-            (@RequestBody SurveyCollectReq req,
+    public BaseResponse<Long> collect(
+            @RequestBody SurveyCollectReq req,
             @CookieValue(value = "token", required = false) String token
             ) {
-        System.out.println("=============");
-        System.out.println(token);
-        System.out.println("=============");
-
         Long result = surveyService.collect(req, token);
         return BaseResponse.success(result);
-    }
-    @GetMapping("/rank")
-    public List<Object[]> getRank() {
-        return surveyService.getRank();
     }
 
 }
