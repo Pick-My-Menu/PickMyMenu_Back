@@ -1,7 +1,6 @@
 package com.pmm.pickmymenu_back.controller;
 
 import com.pmm.pickmymenu_back.dto.BaseResponse;
-import com.pmm.pickmymenu_back.dto.MemberDTO;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberUpdateReq;

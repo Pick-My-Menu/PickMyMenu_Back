@@ -54,7 +54,6 @@ public class CustomRunner implements ApplicationRunner {
 //        Choice choice20 = Choice.create("실내 식사", "야외 식사");
 //        Choice choice21 = Choice.create("혼자 먹는 식사", "함께 먹는 식사");
 //        Choice choice23 = Choice.create("계절 음식", "사계절 음식");
-//        Choice choice25 = Choice.create("단품 요리", "코스 요리");
 //        Choice choice26 = Choice.create("빠른 식사", "여유로운 식사");
 //        Choice choice27 = Choice.create("알코올과 어울림", "음료와 어울림");
 //        Choice choice28 = Choice.create("신선한 재료", "가공된 재료");
@@ -82,7 +81,6 @@ public class CustomRunner implements ApplicationRunner {
 //        choiceRepository.save(choice20);
 //        choiceRepository.save(choice21);
 //        choiceRepository.save(choice23);
-//        choiceRepository.save(choice25);
 //        choiceRepository.save(choice26);
 //        choiceRepository.save(choice27);
 //        choiceRepository.save(choice28);
