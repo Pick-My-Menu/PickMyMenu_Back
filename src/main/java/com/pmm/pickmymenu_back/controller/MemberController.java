@@ -80,6 +80,21 @@ public class MemberController {
         return BaseResponse.success(result);
     }
 
+    // 회원탈퇴
+    @PostMapping("/delete-account")
+    public BaseResponse<String> deleteAccount(
+            @CookieValue(value = "token", required = false) String token,
+            @RequestBody PasswordVerifyReq req) {
+        boolean result = memberService.verifyPassword(token, req.getPassword());
+        if (result) {
+            memberService.deleteMember(token); // 회원 삭제 처리
+            return BaseResponse.success("회원탈퇴가 완료되었습니다.");
+        } else {
+            return BaseResponse.fail("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+
     // JWT 인증
     @PostMapping("/jwtChk")
     public ResponseEntity<String> jwtChk(@CookieValue(value = "token", required = false) String token) {

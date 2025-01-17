@@ -131,4 +131,16 @@ public class MemberService {
         memberRepository.save(member);
         return true;
     }
+    
+    // 회원탈퇴
+    public void deleteMember(String token) {
+        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
+
+        String email = jwtUtil.validateAndExtract(token);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+
+        memberRepository.delete(member);
+    }
+
 }
