@@ -1,8 +1,11 @@
 package com.pmm.pickmymenu_back.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.pmm.pickmymenu_back.dto.BaseResponse;
 import com.pmm.pickmymenu_back.dto.request.rank.RankMenuReq;
+import com.pmm.pickmymenu_back.dto.request.rank.RankSurveyReq;
 import com.pmm.pickmymenu_back.dto.response.rank.RankMenuRes;
+import com.pmm.pickmymenu_back.dto.response.rank.RankSurveyRes;
 import com.pmm.pickmymenu_back.service.RankService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,4 +28,8 @@ public class RankController {
         return BaseResponse.success(rankService.getRankMenu(req));
     }
 
+    @GetMapping("/survey")
+    public BaseResponse<List<RankSurveyRes>> getSurveyRank(@ModelAttribute RankSurveyReq req) {
+        return BaseResponse.success(rankService.getSurveyRank(req));
+    }
 }

@@ -35,6 +35,10 @@ public class CustomRunner implements ApplicationRunner {
 //        memberRepository.save(member2);
 
 //        Choice choice = Choice.create("편안한 분위기", "격식 있는 분위기");
+//        Choice choice20 = Choice.create("실내 식사", "야외 식사");
+//        Choice choice26 = Choice.create("빠른 식사", "여유로운 식사");
+//        Choice choice23 = Choice.create("계절 음식", "사계절 음식");
+
 //        Choice choice1 = Choice.create("부드러운 음식", "바삭한 음식");
 //        Choice choice2 = Choice.create("뜨거운 음식", "차가운 음식");
 //        Choice choice3 = Choice.create("육류 중심", "채소 중심");
@@ -51,10 +55,7 @@ public class CustomRunner implements ApplicationRunner {
 //        Choice choice15 = Choice.create("가정식 스타일", "레스토랑 스타일");
 //        Choice choice16 = Choice.create("육류 위주", "해산물 위주");
 //        Choice choice17 = Choice.create("저칼로리 음식", "고칼로리 음식");
-//        Choice choice20 = Choice.create("실내 식사", "야외 식사");
 //        Choice choice21 = Choice.create("혼자 먹는 식사", "함께 먹는 식사");
-//        Choice choice23 = Choice.create("계절 음식", "사계절 음식");
-//        Choice choice26 = Choice.create("빠른 식사", "여유로운 식사");
 //        Choice choice27 = Choice.create("알코올과 어울림", "음료와 어울림");
 //        Choice choice28 = Choice.create("신선한 재료", "가공된 재료");
 //        Choice choice29 = Choice.create("기름진 음식", "가벼운 음식");
