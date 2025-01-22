@@ -4,8 +4,10 @@ import com.pmm.pickmymenu_back.domain.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    Restaurant findAllById(Long id);
+    Optional<Restaurant> findByResId(Long id);
 }

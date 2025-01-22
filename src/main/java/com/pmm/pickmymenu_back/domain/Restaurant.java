@@ -15,9 +15,10 @@ public class Restaurant extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long restaurantId; // 테이블 id
+    @Column(name = "restaurant_id")
+    private Long id;  // 기본 키
 
-    private Long id; // 식당의 id
+    private Long resId;  // RestaurantId
 
     private String placeName;
 
@@ -53,10 +54,11 @@ public class Restaurant extends TimeEntity {
     }
 
 
-    public Restaurant(Long id, String placeName, String addressName, String roadAddressName,
+    public Restaurant(Long id, Long resId, String placeName, String addressName, String roadAddressName,
             String phone, String categoryGroupCode, String categoryGroupName, String categoryName,
             Double x, Double y, String placeUrl, String imageUrl, Integer distance) {
         this.id = id;
+        this.resId = resId;
         this.placeName = placeName;
         this.addressName = addressName;
         this.roadAddressName = roadAddressName;
@@ -73,9 +75,9 @@ public class Restaurant extends TimeEntity {
     }
 
     public static Restaurant save(RestaurantReq req) {
-        return new Restaurant(req.getId(), req.getPlaceName(), req.getAddressName(),
-                req.getRoadAddressName(), req.getAddressName(), req.getAddressName(),
-                req.getCategoryName(), req.getCategoryName(), req.getX(), req.getY(),
+        return new Restaurant(req.getId(), req.getResId(), req.getPlaceName(), req.getAddressName(),
+                req.getRoadAddressName(), req.getPhone(), req.getCategoryGroupCode(),
+                req.getCategoryGroupName(), req.getCategoryName(), req.getX(), req.getY(),
                 req.getPlaceUrl(), req.getImageUrl(), req.getDistance());
     }
 

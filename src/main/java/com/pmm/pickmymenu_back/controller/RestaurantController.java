@@ -2,12 +2,12 @@ package com.pmm.pickmymenu_back.controller;
 
 import com.pmm.pickmymenu_back.dto.BaseResponse;
 import com.pmm.pickmymenu_back.dto.request.restaurant.RestaurantReq;
+import com.pmm.pickmymenu_back.dto.response.restaurant.RestaurantRes;
 import com.pmm.pickmymenu_back.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +24,16 @@ public class RestaurantController {
 
         boolean result = restaurantService.saveInfo(req);
         return BaseResponse.success(result);
+    }
+
+
+    // 방문식당 조회
+    @GetMapping("/inquiry")
+    public BaseResponse<List<RestaurantRes>> getResultMenusByToken(
+            @CookieValue(value = "token", required = true) String token) {
+//            @RequestHeader(value = "Authorization", required = true) String token) {
+        List<RestaurantRes> resultMenus = restaurantService.getResultMenusByToken(token);
+        return BaseResponse.success(resultMenus);
     }
 
 }
