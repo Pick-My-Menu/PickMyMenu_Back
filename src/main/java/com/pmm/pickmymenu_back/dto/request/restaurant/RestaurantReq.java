@@ -10,7 +10,9 @@ import lombok.*;
 @ToString
 public class RestaurantReq {
 
-    private Long id; // 식당 id
+    private Long id;
+    
+    private Long resId; // 식당 id
 
     // 넘어오는 값은 snake_case인데, 서버에서 받아야되는 값은 camelCase라서 @JsonProperty 어노테이션 사용
     @JsonProperty("place_name")
@@ -46,6 +48,7 @@ public class RestaurantReq {
 
     private Long resultMenuId;
 
+    private Integer count;
 
 
 }

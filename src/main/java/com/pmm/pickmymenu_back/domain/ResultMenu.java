@@ -1,17 +1,11 @@
 package com.pmm.pickmymenu_back.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * ResultMenu 엔티티 클래스
@@ -43,12 +37,22 @@ public class ResultMenu extends TimeEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @OneToOne(mappedBy = "resultMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Review review;
 
+    private String isReviewed = "0";
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
+    public void setSurveyGroup(SurveyGroup surveyGroup) {
+        this.surveyGroup = surveyGroup;
+    }
+
+    public void setReviewed(String reviewed) {
+        this.isReviewed = reviewed;
+    }
 
 
 
@@ -60,4 +64,9 @@ public class ResultMenu extends TimeEntity {
     public static ResultMenu create(Member member, String menu) {
         return new ResultMenu(member, menu);
     }
+
+
+
+
+
 }

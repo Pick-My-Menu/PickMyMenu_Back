@@ -54,7 +54,7 @@ public class MemberService {
 
         String token = jwtUtil.generateToken(member.getEmail(), member.getName());
         res.addHeader("Set-Cookie", String.format("token=%s; HttpOnly; Path=/", token));
-
+        System.out.println("token : " + token);
         return new MemberLoginRes(token, member.getName());
     }
 
