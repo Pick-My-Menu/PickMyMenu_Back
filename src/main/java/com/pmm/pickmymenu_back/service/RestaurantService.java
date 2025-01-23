@@ -62,6 +62,8 @@ public class RestaurantService {
         // 1. 토큰 검증 및 이메일 추출
         String email = jwtUtil.validateAndExtract(token);
 
+
+
         // 2. 이메일로 회원 정보 조회
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
