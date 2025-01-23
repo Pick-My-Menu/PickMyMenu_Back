@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,8 +22,18 @@ public class Review extends TimeEntity {
     @Column(nullable = false)
     private int rating;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_result_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_result_id", nullable = false)
     private ResultMenu resultMenu;
+
+    private Review(String content, int rating, ResultMenu resultMenu) {
+        this.content = content;
+        this.rating = rating;
+        this.resultMenu = resultMenu;
+    }
+
+    public static Review create(String content, int rating, ResultMenu resultMenu){
+        return new Review(content, rating, resultMenu);
+    }
 
 }
