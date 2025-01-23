@@ -2,6 +2,8 @@ package com.pmm.pickmymenu_back.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.pmm.pickmymenu_back.dto.response.rank.RankSurveyRes;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +20,8 @@ class RankServiceTest {
 
     @Test
     void getSurveyRank() {
-        rankService.getSurveyRank(null);
+        List<RankSurveyRes> surveyRank = rankService.getSurveyRank(null);
+        System.out.println(surveyRank);
+
     }
 }

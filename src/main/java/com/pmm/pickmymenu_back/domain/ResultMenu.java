@@ -37,6 +37,9 @@ public class ResultMenu extends TimeEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @OneToOne(mappedBy = "resultMenu")
+    private Review review;
+
     private String isReviewed = "0";
 
     public void setRestaurant(Restaurant restaurant) {

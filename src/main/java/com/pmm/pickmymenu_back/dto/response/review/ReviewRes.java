@@ -1,29 +1,27 @@
 package com.pmm.pickmymenu_back.dto.response.review;
 
-import com.pmm.pickmymenu_back.domain.ResultMenu;
-import lombok.AllArgsConstructor;
+import com.pmm.pickmymenu_back.domain.Review;
+import com.pmm.pickmymenu_back.util.CustomUtil;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ReviewRes {
-    private Long reviewId;
+
+    private Long id;
     private String content;
     private int rating;
     private String placeName;
     private String menu;
-    private LocalDateTime createdDate;
+    private String email;
+    private String createDate;
 
-
-    public ReviewRes(String content, int rating, String placeName, String menu, LocalDateTime createdDate) {
-        this.content = content;
-        this.rating = rating;
-        this.placeName = placeName;
-        this.menu = menu;
-        this.createdDate = createdDate;
+    public ReviewRes(Review review) {
+        this.id = review.getId();
+        this.content = review.getContent();
+        this.rating = review.getRating();
+        this.placeName = review.getResultMenu().getRestaurant().getPlaceName();
+        this.menu = review.getResultMenu().getMenu();
+        this.email = review.getResultMenu().getMember().getEmail();
+        this.createDate = CustomUtil.formatter(review.getCreatedDate());
     }
 }

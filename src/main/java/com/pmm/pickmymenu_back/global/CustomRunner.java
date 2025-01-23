@@ -62,7 +62,6 @@ public class CustomRunner implements ApplicationRunner {
 //        Choice choice30 = Choice.create("향이 강한 음식", "향이 은은한 음식");
 //
 //
-//        choiceRepository.save(choice);
 //        choiceRepository.save(choice1);
 //        choiceRepository.save(choice2);
 //        choiceRepository.save(choice3);
@@ -79,34 +78,11 @@ public class CustomRunner implements ApplicationRunner {
 //        choiceRepository.save(choice15);
 //        choiceRepository.save(choice16);
 //        choiceRepository.save(choice17);
-//        choiceRepository.save(choice20);
 //        choiceRepository.save(choice21);
-//        choiceRepository.save(choice23);
-//        choiceRepository.save(choice26);
 //        choiceRepository.save(choice27);
 //        choiceRepository.save(choice28);
 //        choiceRepository.save(choice29);
 //        choiceRepository.save(choice30);
-//        choiceRepository.save(choice31);
-//        choiceRepository.save(choice32);
-//        choiceRepository.save(choice33);
-//        choiceRepository.save(choice34);
-//        choiceRepository.save(choice35);
-//        choiceRepository.save(choice36);
-//        choiceRepository.save(choice37);
-//        choiceRepository.save(choice38);
-//        choiceRepository.save(choice39);
-//        choiceRepository.save(choice40);
-//        choiceRepository.save(choice41);
-//        choiceRepository.save(choice42);
-//        choiceRepository.save(choice43);
-//        choiceRepository.save(choice44);
-//        choiceRepository.save(choice45);
-//        choiceRepository.save(choice46);
-//        choiceRepository.save(choice47);
-//        choiceRepository.save(choice48);
-//        choiceRepository.save(choice49);
-//        choiceRepository.save(choice50);
 
 
 
