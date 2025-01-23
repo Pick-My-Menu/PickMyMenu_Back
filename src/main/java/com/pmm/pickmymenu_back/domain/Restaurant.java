@@ -49,6 +49,7 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<ResultMenu> resultMenus;
 
+
     public void incrementCount() {
         this.count += 1; // 카운트 + 1 메소드
     }

@@ -68,7 +68,6 @@ public class RestaurantService {
 
         // 3. ResultMenu 테이블에서 member와 일치하는 데이터 조회
         List<ResultMenu> resultMenus = resultMenuRepository.findByMember(member);
-        System.out.println("resultMenus : "+ resultMenus);
         // 4. ResultMenu 엔티티를 ResultMenuResDTO로 변환하여 반환
         return resultMenus.stream()
                 .map(RestaurantRes::fromEntity)
