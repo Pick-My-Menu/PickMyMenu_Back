@@ -37,21 +37,14 @@ public class ResultMenu extends TimeEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToOne(mappedBy = "resultMenu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Review review;
-
     private String isReviewed = "0";
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
-    public void setSurveyGroup(SurveyGroup surveyGroup) {
-        this.surveyGroup = surveyGroup;
-    }
-
-    public void setReviewed(String reviewed) {
-        this.isReviewed = reviewed;
+    public void setReviewed() {
+        this.isReviewed = "1";
     }
 
 
