@@ -37,9 +37,9 @@ public class ReviewController {
     }
 
     @GetMapping()
-    public BaseResponse<PageRes<Page<ReviewRes>>> getList(Pageable pageable) {
+    public BaseResponse<Page<ReviewRes>> getList(Pageable pageable) {
         Page<ReviewRes> list = reviewService.getList(pageable);
-        return BaseResponse.success(new PageRes<>(list));
+        return BaseResponse.success(list);
     }
 
 }
