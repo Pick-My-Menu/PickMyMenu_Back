@@ -18,10 +18,6 @@ public class RestaurantController {
 
     @PostMapping("/saveInfo")
     public BaseResponse<Object> saveInfo(@RequestBody RestaurantReq req) {
-        System.out.println(req);
-        System.out.println("식당아이디: "+req.getId());
-        System.out.println("레절트메뉴아이디: "+req.getResultMenuId());
-
         boolean result = restaurantService.saveInfo(req);
         return BaseResponse.success(result);
     }
