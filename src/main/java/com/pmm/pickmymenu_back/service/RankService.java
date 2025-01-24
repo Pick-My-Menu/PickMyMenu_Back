@@ -1,8 +1,10 @@
 package com.pmm.pickmymenu_back.service;
 
 import com.pmm.pickmymenu_back.dto.request.rank.RankMenuReq;
+import com.pmm.pickmymenu_back.dto.request.rank.RankRestaurantReq;
 import com.pmm.pickmymenu_back.dto.request.rank.RankSurveyReq;
 import com.pmm.pickmymenu_back.dto.response.rank.RankMenuRes;
+import com.pmm.pickmymenu_back.dto.response.rank.RankRestaurantRes;
 import com.pmm.pickmymenu_back.dto.response.rank.RankSurveyRes;
 import com.pmm.pickmymenu_back.repository.ResultMenuRepository;
 import com.pmm.pickmymenu_back.repository.SurveyRepository;
@@ -31,5 +33,10 @@ public class RankService {
     @Transactional(readOnly = true)
     public List<RankSurveyRes> getSurveyRank(RankSurveyReq req) {
         return surveyRepository.findSurveyByChoiceId();
+    }
+
+    @Transactional(readOnly = true)
+    public List<RankRestaurantRes> getRestaurantRank(RankRestaurantReq req) {
+        return resultMenuRepository.findMenuByRestaurant(req.getMenuName(), req.getTime());
     }
 }

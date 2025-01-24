@@ -31,7 +31,7 @@ public class RestaurantService {
 
     public boolean saveInfo(RestaurantReq req) {
 
-        Optional<Restaurant> existingRestaurant = restaurantRepository.findByResId(req.getId());
+        Optional<Restaurant> existingRestaurant = restaurantRepository.findByResId(req.getResId());
 
         if (existingRestaurant.isPresent()) {
             Restaurant restaurant = existingRestaurant.get();
