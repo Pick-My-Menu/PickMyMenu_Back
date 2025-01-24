@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface ResultMenuRepository extends JpaRepository<ResultMenu, Long> {
-    List<ResultMenu> findByMember(Member member);
+    List<ResultMenu> findByMemberOrderByCreatedDateDesc(Member member);
 
 
     @Query("SELECT new com.pmm.pickmymenu_back.dto.response.rank.RankMenuRes(r.menu, COUNT(r.menu)) "
