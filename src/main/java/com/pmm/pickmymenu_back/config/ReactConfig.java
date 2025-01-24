@@ -10,8 +10,8 @@ public class ReactConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://hhjnn92.synology.me:3020",
-                                "https://hhjnn92.synology.me:3021",
+                .allowedOrigins("http://hhjnn92.synology.me:7051",
+                                "https://hhjnn92.synology.me:7061",
                                 "https://pmm.hhjnn92.synology.me",
                                 "https://pmm.hhjnn92.synology.me:443",
                                 "https://pickmymenu.shop",
