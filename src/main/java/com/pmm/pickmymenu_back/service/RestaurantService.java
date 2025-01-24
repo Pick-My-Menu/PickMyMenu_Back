@@ -62,18 +62,23 @@ public class RestaurantService {
         // 1. 토큰 검증 및 이메일 추출
         String email = jwtUtil.validateAndExtract(token);
 
-
-
         // 2. 이메일로 회원 정보 조회
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
 
         // 3. ResultMenu 테이블에서 member와 일치하는 데이터 조회
-        List<ResultMenu> resultMenus = resultMenuRepository.findByMember(member);
+        List<ResultMenu> resultMenus = resultMenuRepository.findByMemberOrderByCreatedDateDesc(member);
+
         // 4. ResultMenu 엔티티를 ResultMenuResDTO로 변환하여 반환
         return resultMenus.stream()
+                .filter(resultMenu ->
+                        Optional.ofNullable(resultMenu.getRestaurant())
+                                .map(Restaurant::getId)
+                                .isPresent()
+                )
                 .map(RestaurantRes::fromEntity)
                 .toList();
+
     }
 
 
