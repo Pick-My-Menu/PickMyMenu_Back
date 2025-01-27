@@ -37,7 +37,9 @@ public class ReviewService {
     private final JWTUtil jwtUtil;
 
     public ReviewCreateRes create(ReviewCreateReq req, String token) {
-        System.out.println(req);
+        if (req.getContent().isEmpty() || req.getContent() == null) {
+            throw new RuntimeException("내용을 작성해주세요.");
+        }
         if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
         String email = jwtUtil.validateAndExtract(token);
         Member member = memberRepository.findByEmail(email)
