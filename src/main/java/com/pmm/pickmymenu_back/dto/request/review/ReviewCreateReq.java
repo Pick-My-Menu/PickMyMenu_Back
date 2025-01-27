@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,6 @@ public class ReviewCreateReq {
     private int rating;
     private Long restaurantId;
     private Long resultMenuId;
-
+    private String reviewImageUrl;
+    private MultipartFile ReviewImage;
 }
