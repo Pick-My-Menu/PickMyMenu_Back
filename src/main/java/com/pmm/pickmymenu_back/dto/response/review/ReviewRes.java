@@ -14,6 +14,7 @@ public class ReviewRes {
     private String menu;
     private String email;
     private String createDate;
+    private String reviewImageUrl;
 
     public ReviewRes(Review review) {
         this.id = review.getId();
@@ -27,6 +28,7 @@ public class ReviewRes {
                 ? review.getResultMenu().getMember().getEmail() : ""; // null 체크
         this.createDate = review.getCreatedDate() != null
                 ? CustomUtil.formatter(review.getCreatedDate()) : ""; // null 체크
+        this.reviewImageUrl = review.getReviewImageUrl() != null ? review.getReviewImageUrl() : "";
     }
 
 }

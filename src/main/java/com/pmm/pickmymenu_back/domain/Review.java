@@ -26,13 +26,16 @@ public class Review extends TimeEntity {
     @JoinColumn(name = "menu_result_id", nullable = false)
     private ResultMenu resultMenu;
 
-    public Review(String content, int rating, ResultMenu resultMenu) {
+    private String reviewImageUrl;
+
+    public Review(String content, int rating, ResultMenu resultMenu, String reviewImageUrl) {
         this.content = content;
         this.rating = rating;
         this.resultMenu = resultMenu;
+        this.reviewImageUrl = reviewImageUrl;
     }
 
     public static Review create(ReviewCreateReq req, ResultMenu resultMenu) {
-        return new Review(req.getContent(), req.getRating(), resultMenu);
+        return new Review(req.getContent(), req.getRating(), resultMenu, req.getReviewImageUrl());
     }
 }
