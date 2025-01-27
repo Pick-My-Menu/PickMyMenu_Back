@@ -5,6 +5,7 @@ import com.pmm.pickmymenu_back.domain.Restaurant;
 import com.pmm.pickmymenu_back.domain.ResultMenu;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Getter
@@ -52,10 +53,12 @@ public class RestaurantRes {
 
     private String isReviewed;
 
+    private String createdDate;
+
 
     public RestaurantRes(Long id, Long resId, String placeName, String addressName, String roadAddressName,
                          String phone, String categoryGroupCode, String categoryGroupName, String categoryName,
-                         Double x, Double y, String placeUrl, String imageUrl, Integer distance, Long resultMenuId, String menu, String isReviewed) {
+                         Double x, Double y, String placeUrl, String imageUrl, Integer distance, Long resultMenuId, String menu, String isReviewed, String createdDate) {
         this.id = id;
         this.resId = resId;
         this.placeName = placeName;
@@ -73,6 +76,7 @@ public class RestaurantRes {
         this.resultMenuId = resultMenuId;
         this.menu = menu;
         this.isReviewed = isReviewed;
+        this.createdDate = createdDate;
     }
 
 
@@ -97,8 +101,10 @@ public class RestaurantRes {
                 Optional.ofNullable(restaurant).map(Restaurant::getDistance).orElse(null),
                 resultMenu.getId(), // ResultMenu의 ID를 매핑
                 resultMenu.getMenu(),
-                resultMenu.getIsReviewed()
+                resultMenu.getIsReviewed(),
+                resultMenu.getCreatedDate() != null ? resultMenu.getCreatedDate().toLocalDate().toString() : null // "yyyy-MM-dd"로 변환
         );
+
     }
 
 
