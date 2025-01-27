@@ -17,11 +17,16 @@ public class ReviewRes {
 
     public ReviewRes(Review review) {
         this.id = review.getId();
-        this.content = review.getContent();
+        this.content = review.getContent() != null ? review.getContent() : ""; // null 체크
         this.rating = review.getRating();
-        this.placeName = review.getResultMenu().getRestaurant().getPlaceName();
-        this.menu = review.getResultMenu().getMenu();
-        this.email = review.getResultMenu().getMember().getEmail();
-        this.createDate = CustomUtil.formatter(review.getCreatedDate());
+        this.placeName = review.getResultMenu() != null && review.getResultMenu().getRestaurant() != null
+                ? review.getResultMenu().getRestaurant().getPlaceName() : ""; // null 체크
+        this.menu = review.getResultMenu() != null
+                ? review.getResultMenu().getMenu() : ""; // null 체크
+        this.email = review.getResultMenu() != null && review.getResultMenu().getMember() != null
+                ? review.getResultMenu().getMember().getEmail() : ""; // null 체크
+        this.createDate = review.getCreatedDate() != null
+                ? CustomUtil.formatter(review.getCreatedDate()) : ""; // null 체크
     }
+
 }

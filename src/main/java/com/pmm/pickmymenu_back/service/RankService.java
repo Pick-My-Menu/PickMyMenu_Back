@@ -10,6 +10,7 @@ import com.pmm.pickmymenu_back.repository.ResultMenuRepository;
 import com.pmm.pickmymenu_back.repository.SurveyRepository;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class RankService {
     }
 
     @Transactional(readOnly = true)
-    public List<RankRestaurantRes> getRestaurantRank(RankRestaurantReq req) {
+    public List<Map<String, Object>> getRestaurantRank(RankRestaurantReq req) {
         return resultMenuRepository.findMenuByRestaurant(req.getMenuName(), req.getTime());
     }
 }

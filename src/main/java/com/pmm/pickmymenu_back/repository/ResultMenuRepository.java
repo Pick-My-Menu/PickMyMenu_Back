@@ -6,6 +6,7 @@ import com.pmm.pickmymenu_back.dto.response.rank.RankMenuRes;
 import com.pmm.pickmymenu_back.dto.response.rank.RankRestaurantRes;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,10 +26,10 @@ public interface ResultMenuRepository extends JpaRepository<ResultMenu, Long> {
             + "LIMIT 10 ")
     List<RankMenuRes> findMenuCountsOrderByDesc(@Param("time") LocalDateTime time);
 
-    @Query("SELECT COUNT(rm.restaurant), rm.menu "
+    @Query("SELECT COUNT(rm.restaurant) as resCount, rm.menu as menu, rt.placeName "
             + "FROM ResultMenu rm "
-            + "JOIN rm.restaurant rt "
+            + "RIGHT JOIN rm.restaurant rt "
             + "WHERE rm.menu = :menuName "
             + "GROUP BY rm.restaurant ")
-    List<RankRestaurantRes> findMenuByRestaurant(@Param("menuName") String menuName, @Param("time") LocalDateTime time);
+    List<Map<String, Object>> findMenuByRestaurant(@Param("menuName") String menuName, @Param("time") LocalDateTime time);
 }
