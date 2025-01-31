@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,9 @@ public class SurveyController {
             @RequestBody SurveyCollectReq req,
             @CookieValue(value = "token", required = false) String token
             ) {
+        if (req.getList() == null) {
+            req.setList(new ArrayList<>()); // 빈 리스트로 설정
+        }
         Long result = surveyService.collect(req, token);
         return BaseResponse.success(result);
     }
