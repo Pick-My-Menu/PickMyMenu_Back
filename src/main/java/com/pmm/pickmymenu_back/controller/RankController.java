@@ -37,7 +37,7 @@ public class RankController {
     }
 
     @GetMapping("/restaurant")
-    public BaseResponse<List<Map<String, Object>>> getRestaurantRank(
+    public BaseResponse<List<RankRestaurantRes>> getRestaurantRank(
             @ModelAttribute RankRestaurantReq req) {
         return BaseResponse.success(rankService.getRestaurantRank(req));
     }

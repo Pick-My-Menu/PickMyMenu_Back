@@ -37,7 +37,7 @@ public class RankService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getRestaurantRank(RankRestaurantReq req) {
+    public List<RankRestaurantRes> getRestaurantRank(RankRestaurantReq req) {
         return resultMenuRepository.findMenuByRestaurant(req.getMenuName(), req.getTime());
     }
 }
