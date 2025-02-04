@@ -35,11 +35,13 @@ public class FtpUtil {
         try (InputStream inputStream = new FileInputStream(localFile)) {
             boolean done = ftpClient.storeFile(remoteFilePath, inputStream);
             if (!done) {
-                throw new IOException("파일 업로드 실패");
+                String errorMessage = ftpClient.getReplyString(); // FTP 서버의 응답 메시지
+                throw new IOException("파일 업로드 실패: " + errorMessage);
             }
             return true;
         }
     }
+
 
     // 파일 다운로드
     public void downloadFile(String remoteFilePath, String localFilePath) throws IOException {

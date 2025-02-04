@@ -28,14 +28,27 @@ public class Review extends TimeEntity {
 
     private String reviewImageUrl;
 
-    public Review(String content, int rating, ResultMenu resultMenu, String reviewImageUrl) {
+    @Column(nullable = false)
+    private int hiddenStatus = 0; // 0 - 기본, 1 - 숨김
+
+    @Column(nullable = false)
+    private int deletedStatus = 0; // 0 - 기본, 1 - 삭제
+
+
+    public Review(String content, int rating, ResultMenu resultMenu, String reviewImageUrl, int hiddenStatus, int deletedStatus) {
         this.content = content;
         this.rating = rating;
         this.resultMenu = resultMenu;
         this.reviewImageUrl = reviewImageUrl;
+        this.hiddenStatus = hiddenStatus;
+        this.deletedStatus = deletedStatus;
     }
 
     public static Review create(ReviewCreateReq req, ResultMenu resultMenu) {
-        return new Review(req.getContent(), req.getRating(), resultMenu, req.getReviewImageUrl());
+        return new Review(req.getContent(), req.getRating(), resultMenu, req.getReviewImageUrl(), 0, 0);
+    }
+
+    public void setHiddenStatus(int hiddenStatus) {
+        this.hiddenStatus = hiddenStatus;
     }
 }

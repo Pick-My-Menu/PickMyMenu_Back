@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -63,6 +64,30 @@ public class ReviewController {
     public BaseResponse<Long> getCount(@CookieValue(value = "token", required = false) String token) {
         long count = reviewService.getCount(token);
         return BaseResponse.success(count);
+    }
+
+    // 리뷰 숨기기
+    @PostMapping("/hide")
+    public BaseResponse<ReviewRes> hideReview(
+            @RequestParam Long resultMenuId,
+            @CookieValue(value = "token", required = false) String token) {
+
+        ReviewRes reviewRes = reviewService.hideReview(resultMenuId, token);
+        System.out.println("숨깁니다");
+
+        return BaseResponse.success(reviewRes);
+    }
+
+    // 리뷰 숨기기
+    @PostMapping("/unHide")
+    public BaseResponse<ReviewRes> unHideReview(
+            @RequestParam Long resultMenuId,
+            @CookieValue(value = "token", required = false) String token) {
+
+        ReviewRes reviewRes = reviewService.unHideReview(resultMenuId, token);
+        System.out.println("공개합니다");
+
+        return BaseResponse.success(reviewRes);
     }
 
 }
