@@ -19,11 +19,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,8 +101,16 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public Page<ReviewRes> getList(Pageable pageable) {
-        Page<Review> all = reviewRepository.findAll(pageable);
-        return all.map(ReviewRes::new);
+        Page<Review> all = reviewRepository.findAllByOrderByCreatedDateDesc(pageable); // 리뷰 최신순으로 변경
+
+//        return all.map(ReviewRes::new);
+
+        List<ReviewRes> filteredReviews = all.getContent().stream()
+                .filter(review -> review.getHiddenStatus() == 0) // hiddenStatus가 0인 것만 필터링
+                .map(ReviewRes::new)  // Review 객체를 ReviewRes로 변환
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(filteredReviews, pageable, filteredReviews.size());
     }
 
     // 내 리뷰 리스트
@@ -111,7 +122,7 @@ public class ReviewService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
 
-        Page<Review> reviews = reviewRepository.findByResultMenu_Member(pageable, member);
+        Page<Review> reviews = reviewRepository.findByResultMenu_MemberOrderByCreatedDateDesc(pageable, member); // 리뷰 최신순으로 변경
         return reviews.map(ReviewRes::new);
     }
 
@@ -126,4 +137,59 @@ public class ReviewService {
 
         return resultMenuRepository.count(member);
     }
+
+
+    // 리뷰 숨기기
+    public ReviewRes hideReview(Long resultMenuId, String token) {
+
+        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
+        String email = jwtUtil.validateAndExtract(token);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+
+        ResultMenu resultMenu = resultMenuRepository.findById(resultMenuId)
+                .orElseThrow(() -> new RuntimeException("해당 레스토랑을 찾을 수 없습니다."));
+
+        if (!member.getId().equals(resultMenu.getMember().getId())) {
+            throw new MemberException("사용자가 일치하지 않습니다.");
+        }
+
+        // 리뷰를 찾음
+        Review review = reviewRepository.findByResultMenu(resultMenu)
+                .orElseThrow(() -> new RuntimeException("해당 레스토랑에 대한 리뷰를 찾을 수 없습니다."));
+
+        review.setHiddenStatus(1); // hiddenStatus를 1로 설정 (숨김 상태)
+        reviewRepository.save(review);
+
+
+        return new ReviewRes(review);
+    }
+
+
+    // 리뷰 보이기
+    public ReviewRes unHideReview(Long resultMenuId, String token) {
+
+        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
+        String email = jwtUtil.validateAndExtract(token);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+
+        ResultMenu resultMenu = resultMenuRepository.findById(resultMenuId)
+                .orElseThrow(() -> new RuntimeException("해당 레스토랑을 찾을 수 없습니다."));
+
+        if (!member.getId().equals(resultMenu.getMember().getId())) {
+            throw new MemberException("사용자가 일치하지 않습니다.");
+        }
+
+        // 리뷰를 찾음
+        Review review = reviewRepository.findByResultMenu(resultMenu)
+                .orElseThrow(() -> new RuntimeException("해당 레스토랑에 대한 리뷰를 찾을 수 없습니다."));
+
+        review.setHiddenStatus(0); // 0 - 공개
+        reviewRepository.save(review);
+
+
+        return new ReviewRes(review);
+    }
+    
 }
