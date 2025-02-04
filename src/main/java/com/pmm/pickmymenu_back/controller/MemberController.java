@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.pmm.pickmymenu_back.dto.BaseResponse;
 import com.pmm.pickmymenu_back.dto.request.member.*;
 import com.pmm.pickmymenu_back.dto.response.member.*;
@@ -28,7 +29,8 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public BaseResponse<MemberLoginRes> login(@RequestBody MemberLoginReq req, HttpServletResponse res) {
+    public BaseResponse<MemberLoginRes> login(@RequestBody MemberLoginReq req,
+            HttpServletResponse res) {
         MemberLoginRes result = memberService.loginProcess(req, res);
         return BaseResponse.success(result);
     }
@@ -44,7 +46,8 @@ public class MemberController {
 
     // 마이페이지 정보 조회
     @GetMapping("/mypage")
-    public BaseResponse<MemberMyPageRes> getMyPage(@CookieValue(value = "token", required = false) String token) {
+    public BaseResponse<MemberMyPageRes> getMyPage(
+            @CookieValue(value = "token", required = false) String token) {
         MemberMyPageRes result = memberService.getMemberInfo(token);
         return BaseResponse.success(result);
     }
@@ -67,7 +70,7 @@ public class MemberController {
     // 회원정보 수정
     @PutMapping("/update")
     public BaseResponse<String> updateMember(@RequestBody MemberUpdateReq memberUpdateReq,
-                                             @CookieValue(value = "token", required = false) String token) {
+            @CookieValue(value = "token", required = false) String token) {
         boolean isUpdated = memberService.updateMember(memberUpdateReq, token);
         return isUpdated ? BaseResponse.success("회원 정보가 성공적으로 업데이트 되었습니다.")
                 : BaseResponse.fail("회원 정보 업데이트에 실패했습니다.");
@@ -97,7 +100,8 @@ public class MemberController {
 
     // JWT 인증
     @PostMapping("/jwtChk")
-    public ResponseEntity<String> jwtChk(@CookieValue(value = "token", required = false) String token) {
+    public ResponseEntity<String> jwtChk(
+            @CookieValue(value = "token", required = false) String token) {
         try {
             if (token == null) {
                 throw new IllegalArgumentException("토큰이 없습니다.");
@@ -116,5 +120,13 @@ public class MemberController {
         } catch (Exception e) {
             return new ResponseEntity<>("인증 실패: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @GetMapping("/record")
+    public BaseResponse<MemberRecordRes> memberSurveyRecord(@ModelAttribute MemberRecordReq req,
+            @CookieValue(value = "token", required = false) String token
+    ) {
+        MemberRecordRes result = memberService.memberSurveyRecord(req, token);
+        return BaseResponse.success(result);
     }
 }
