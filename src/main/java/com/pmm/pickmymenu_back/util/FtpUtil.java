@@ -1,4 +1,4 @@
-package com.pmm.pickmymenu_back.config;
+package com.pmm.pickmymenu_back.util;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;

@@ -16,13 +16,13 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT COUNT(r) FROM ResultMenu r WHERE r.member.id = :memberId AND r.isReviewed = '0'")
-    long countUnreviewedMenusByMemberId(@Param("memberId") Long memberId);
-
+    // 모든 리뷰 날짜순 조회
     Page<Review> findAllByOrderByCreatedDateDesc(Pageable pageable);
 
+    // 내 리뷰 날짜순 조회
     Page<Review> findByResultMenu_MemberOrderByCreatedDateDesc(Pageable pageable, Member member);
 
+    // 리뷰id로 작성된 리뷰 찾기
     Optional<Review> findByResultMenu(ResultMenu resultMenu);
 
 }
