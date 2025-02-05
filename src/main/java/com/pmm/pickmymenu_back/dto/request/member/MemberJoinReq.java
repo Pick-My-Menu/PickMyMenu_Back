@@ -15,6 +15,7 @@ public class MemberJoinReq {
     private String birthdate;
     private String phoneNumber;
     private String gender;
+    private String role;
 
     public void setGender(String gender) {
         if (gender.equals("male")) {

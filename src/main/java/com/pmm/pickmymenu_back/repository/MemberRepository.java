@@ -3,6 +3,7 @@ package com.pmm.pickmymenu_back.repository;
 import com.pmm.pickmymenu_back.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -18,6 +19,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 로그인 시 이메일과 비밀번호로 회원 찾기
     Optional<Member> findByEmailAndPassword(String email, String password);  // loginId -> email로 변경
+
+
+    // 관리자용 모든 회원 출력 (ROLE_USER만)
+    List<Member> findAllByRole(String role);
 
 }
 

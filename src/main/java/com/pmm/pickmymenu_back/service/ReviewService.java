@@ -1,11 +1,10 @@
 package com.pmm.pickmymenu_back.service;
 
-import com.pmm.pickmymenu_back.config.FtpUtil;
+import com.pmm.pickmymenu_back.util.FtpUtil;
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.domain.ResultMenu;
 import com.pmm.pickmymenu_back.domain.Review;
 import com.pmm.pickmymenu_back.dto.request.review.ReviewCreateReq;
-import com.pmm.pickmymenu_back.dto.request.review.ReviewReq;
 import com.pmm.pickmymenu_back.dto.response.review.ReviewCreateRes;
 import com.pmm.pickmymenu_back.dto.response.review.ReviewRes;
 import com.pmm.pickmymenu_back.exception.MemberException;
@@ -17,12 +16,10 @@ import com.pmm.pickmymenu_back.util.JWTUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

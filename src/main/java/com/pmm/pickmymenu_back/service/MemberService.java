@@ -45,6 +45,11 @@ public class MemberService {
         if (isPhoneNumberExist) throw new IllegalArgumentException("이미 등록된 전화번호입니다.");
 
         req.setPassword(bCryptPasswordEncoder.encode(req.getPassword()));
+
+        if (req.getRole() == null || req.getRole().isBlank()) {
+            req.setRole("ROLE_USER");
+        }
+
         Member member = Member.create(req);
         memberRepository.save(member);
         return "회원가입 성공";
@@ -63,7 +68,7 @@ public class MemberService {
         String token = jwtUtil.generateToken(member.getEmail(), member.getName());
         res.addHeader("Set-Cookie", String.format("token=%s; HttpOnly; Path=/", token));
         System.out.println("token : " + token);
-        return new MemberLoginRes(token, member.getName());
+        return new MemberLoginRes(token, member.getName(), member.getRole());
     }
 
     // 마이페이지 조회

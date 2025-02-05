@@ -49,4 +49,10 @@ public interface ResultMenuRepository extends JpaRepository<ResultMenu, Long> {
     List<String> findMenuByMember(@Param("member") Member member);
 
 
+    @Query("SELECT COUNT(rm) FROM ResultMenu rm WHERE rm.member.id = :memberId AND rm.isReviewed = '1'")
+    int reviewCountByMemberId(Long memberId);
+
+    @Query("SELECT COUNT(rm) FROM ResultMenu rm WHERE rm.member.id = :memberId AND rm.restaurant IS NOT NULL")
+    int restaurantCountByMemberId(@Param("memberId") Long memberId);
+
 }

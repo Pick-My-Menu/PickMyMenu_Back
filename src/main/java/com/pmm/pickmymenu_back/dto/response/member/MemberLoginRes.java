@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class MemberLoginRes {
     private String token;
     private String name;
+    private String role;
 
 
 }
