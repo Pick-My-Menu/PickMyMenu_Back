@@ -129,4 +129,12 @@ public class MemberController {
         MemberRecordRes result = memberService.memberSurveyRecord(req, token);
         return BaseResponse.success(result);
     }
+
+    @PutMapping("/{id}")
+    public BaseResponse<String> adminUpdate(@PathVariable Long id,
+            @RequestBody MemberAdminUpdateReq req,
+            @CookieValue(value = "token", required = false) String token) {
+        String result = memberService.adminUpdate(id, req, token);
+        return BaseResponse.success(result);
+    }
 }

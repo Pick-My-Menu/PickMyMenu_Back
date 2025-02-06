@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.pmm.pickmymenu_back.dto.request.choice.ChoiceUpdateReq;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,5 +54,10 @@ public class Choice extends TimeEntity {
     }
     public void countPlus() {
         this.useCount += 1;
+    }
+
+    public void update(ChoiceUpdateReq req) {
+        this.question0 = req.getQuestion0();
+        this.question1 = req.getQuestion1();
     }
 }

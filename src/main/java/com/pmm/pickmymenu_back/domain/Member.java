@@ -1,5 +1,6 @@
 package com.pmm.pickmymenu_back.domain;
 
+import com.pmm.pickmymenu_back.dto.request.member.MemberAdminUpdateReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,5 +82,13 @@ public class Member extends TimeEntity {
         if (password != null && !password.isEmpty()) {
             this.password = password;
         }
+    }
+
+    public void update(MemberAdminUpdateReq req) {
+        this.birthdate = req.getBirthdate();
+        this.gender = req.getGender();
+        this.name = req.getName();
+        this.phoneNumber = req.getPhoneNumber();
+
     }
 }
