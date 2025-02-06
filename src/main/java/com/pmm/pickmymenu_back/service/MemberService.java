@@ -2,6 +2,7 @@ package com.pmm.pickmymenu_back.service;
 
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.domain.SurveyGroup;
+import com.pmm.pickmymenu_back.dto.request.member.MemberAdminUpdateReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberRecordReq;
@@ -18,7 +19,6 @@ import com.pmm.pickmymenu_back.repository.SurveyGroupRepository;
 import com.pmm.pickmymenu_back.util.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -166,5 +166,24 @@ public class MemberService {
                 .map(RecordSurveyGroupRes::new).toList();
 
         return new MemberRecordRes(list);
+    }
+
+    public String adminUpdate(Long id, MemberAdminUpdateReq req, String token) {
+        adminCheck(token);
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new MemberException("해당 ID 가 존재하지 않습니다."));
+        member.update(req);
+        memberRepository.save(member);
+        return "변경 성공.";
+    }
+
+    public void adminCheck(String token) {
+        String email = jwtUtil.validateAndExtract(token);
+        Member admin = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException("관리자가 아닙니다."));
+        if (!admin.getRole().equals("ROLE_ADMIN")) {
+            throw new MemberException("관리자가 아닙니다.");
+        }
     }
 }
