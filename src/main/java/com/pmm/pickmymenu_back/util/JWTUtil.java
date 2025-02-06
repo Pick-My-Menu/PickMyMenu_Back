@@ -33,12 +33,13 @@ public class JWTUtil {
     }
 
     // JWT 생성
-    public String generateToken(String email, String name) {
+    public String generateToken(String email, String name, String role) {
         long expirationTime = 1000 * 60 * 60;  // 1시간 (밀리초 단위)
 
         return Jwts.builder()
                 .setSubject(email)  // 사용자 이메일을 Subject로 설정
                 .claim("name", name)
+                .claim("role", role)
                 .setIssuer(issuer)     // issuer 설정
                 .setIssuedAt(new Date())  // 발급 일시
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))  // 만료 일시 (1시간)
@@ -56,6 +57,17 @@ public class JWTUtil {
 
         return claims.getSubject();
     }
+
+    public String findRole(String token) {
+        Claims claims = Jwts.parserBuilder()  // 변경된 부분
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
+    }
+
 
     // JWT가 만료되었는지 확인하는 메서드
     public boolean isTokenExpired(String token) {

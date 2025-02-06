@@ -65,7 +65,7 @@ public class MemberService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        String token = jwtUtil.generateToken(member.getEmail(), member.getName());
+        String token = jwtUtil.generateToken(member.getEmail(), member.getName(), member.getRole());
         res.addHeader("Set-Cookie", String.format("token=%s; HttpOnly; Path=/", token));
         System.out.println("token : " + token);
         return new MemberLoginRes(token, member.getName(), member.getRole());
