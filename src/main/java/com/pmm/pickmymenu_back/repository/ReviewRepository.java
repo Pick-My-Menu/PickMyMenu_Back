@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    // 모든 리뷰 날짜순 조회
+    @Query("SELECT r FROM Review r WHERE r.hiddenStatus = 0 ")
     Page<Review> findAllByOrderByCreatedDateDesc(Pageable pageable);
 
     // 내 리뷰 날짜순 조회
