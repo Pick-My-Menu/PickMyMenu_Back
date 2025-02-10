@@ -4,11 +4,15 @@ import com.pmm.pickmymenu_back.domain.Choice;
 import com.pmm.pickmymenu_back.repository.ChoiceRepository;
 import com.pmm.pickmymenu_back.repository.MemberRepository;
 
+import com.pmm.pickmymenu_back.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @Transactional
@@ -17,22 +21,44 @@ public class CustomRunner implements ApplicationRunner {
 
     private final MemberRepository memberRepository;
     private final ChoiceRepository choiceRepository;
+    private final SurveyRepository surveyRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        Member member = Member.create("nowcow", "최현우",
-//                "$2a$10$R1sOsCTIiyZi7kMX8cCxYusRF2o1bzF1Si.mmlq1oK1es26F7Pcwq", "nowcow@a.com",
-//                "920514", "01041436250", "남자");
-//        Member member1 = Member.create("testUser", "홍길동",
-//                "$2a$10$ToYeHTarnkESA5ynNfM6T.WqMOmRh3nSKTULBFPBtR05GSKFb0UpC",
-//                "testuser@example.com", "1990-01-01", "010-1234-5678", "남자");
-//        Member member2 = Member.create("cha12", "차성환",
-//                "$2a$10$OieXv5NMFx37TIP0xvnfRuBCb8OuHuoMWi05fK6ocsjPTK7B.avom", "cha1234@naver.com",
-//                "19980415", "01012345678", "남자");
-//
-//        memberRepository.save(member);
-//        memberRepository.save(member1);
-//        memberRepository.save(member2);
+
+
+        //surveyRepository.deleteAll();
+        //choiceRepository.deleteAll();
+
+
+
+        List<Choice> choices = Arrays.asList(
+                Choice.create("매운 음식", "순한 음식"),
+                Choice.create("고기 요리", "채식 요리"),
+                Choice.create("밥", "면"),
+                Choice.create("국물 요리", "볶음 요리"),
+                Choice.create("달콤한 맛", "짭짤한 맛"),
+                Choice.create("간편식", "정성 가득한 요리"),
+                Choice.create("전통 한식", "현대 퓨전 음식"),
+                Choice.create("빠른 식사", "여유로운 식사"),
+                Choice.create("따뜻한 음식", "차가운 음식"),
+                Choice.create("해산물 요리", "육류 요리"),
+                Choice.create("자극적인 맛", "담백한 맛"),
+                Choice.create("간단한 식사", "풍성한 코스 요리"),
+                Choice.create("신선한 재료 요리", "풍미 소스 요리"),
+                Choice.create("새로운 음식 도전", "익숙한 메뉴"),
+                Choice.create("패스트푸드", "정통 요리"),
+                Choice.create("부드러운 식감", "바삭한 식감"),
+                Choice.create("신선한 재료 음식", "숙성된 재료 음식"),
+                Choice.create("한 종류 요리", "여러 종류 요리"),
+                Choice.create("깔끔한 플레이팅", "창의적인 플레이팅"),
+                Choice.create("단순한 맛", "복합적인 맛"),
+                Choice.create("건강 중시 음식", "맛 중시 음식")
+        );
+
+        choiceRepository.saveAll(choices);
+
+
 
 //        Choice choice = Choice.create("편안한 분위기", "격식 있는 분위기");
 //        Choice choice20 = Choice.create("실내 식사", "야외 식사");

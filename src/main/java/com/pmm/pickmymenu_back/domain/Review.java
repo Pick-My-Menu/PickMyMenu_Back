@@ -48,6 +48,16 @@ public class Review extends TimeEntity {
         return new Review(req.getContent(), req.getRating(), resultMenu, req.getReviewImageUrl(), 0, 0);
     }
 
+    public void editReview(String content, int rating, int hiddenStatus) {
+        this.content = content;
+        this.rating = rating;
+        this.hiddenStatus = hiddenStatus;
+    }
+
+    public void deleteReview(int deletedStatus) {
+        this.deletedStatus = deletedStatus;
+    }
+
     public void setHiddenStatus(int hiddenStatus) {
         this.hiddenStatus = hiddenStatus;
     }

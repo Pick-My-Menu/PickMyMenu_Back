@@ -98,7 +98,7 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public Page<ReviewRes> getList(Pageable pageable) {
-        Page<Review> all = reviewRepository.findAllByOrderByCreatedDateDesc(pageable); // 리뷰 최신순으로 변경
+        Page<Review> all = reviewRepository.findAllByOrderByCreatedDateDesc2(pageable); // 리뷰 최신순으로 변경
 
 //        return all.map(ReviewRes::new);
 

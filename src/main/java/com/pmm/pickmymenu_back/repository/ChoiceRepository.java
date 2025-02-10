@@ -29,4 +29,9 @@ public interface ChoiceRepository extends JpaRepository<Choice, Long> {
                     "LIMIT 1")
     Optional<Choice> getRandom();
 
+
+    // 랜덤으로 선택지 3개 가져오기
+    @Query(value = "SELECT * FROM choice ORDER BY RAND() LIMIT 3", nativeQuery = true)
+    List<Choice> findRandomChoices();
+
 }

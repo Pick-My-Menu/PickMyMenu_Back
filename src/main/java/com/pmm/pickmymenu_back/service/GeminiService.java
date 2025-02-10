@@ -1,10 +1,12 @@
 package com.pmm.pickmymenu_back.service;
 
 
+import com.pmm.pickmymenu_back.domain.Choice;
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.dto.GeminiRequest;
 import com.pmm.pickmymenu_back.dto.GeminiResponse;
 import com.pmm.pickmymenu_back.exception.MemberException;
+import com.pmm.pickmymenu_back.repository.ChoiceRepository;
 import com.pmm.pickmymenu_back.repository.MemberRepository;
 import com.pmm.pickmymenu_back.repository.ResultMenuRepository;
 import com.pmm.pickmymenu_back.util.JWTUtil;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import java.util.Random;
 
 import java.util.List;
 
@@ -23,7 +26,9 @@ public class GeminiService {
 
     private final ResultMenuRepository resultMenuRepository;
     private final MemberRepository memberRepository;
+    private final ChoiceRepository choiceRepository;
     private final JWTUtil jwtUtil;
+    private final Random random = new Random();
 
     @Qualifier("geminiRestTemplate")
     @Autowired
@@ -52,27 +57,23 @@ public class GeminiService {
 
     // 오늘의 추천
     public List<String> getTodayPick(String token) {
-        if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
-        String email = jwtUtil.validateAndExtract(token);
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberException("해당 사용자를 찾을 수 없습니다."));
+        if (token == null || token.isEmpty()) {
+            throw new MemberException("로그인이 필요합니다.");
+        }
 
-        return resultMenuRepository.findMenuByMember(member); // 모두 리턴
+        List<Choice> choices = choiceRepository.findRandomChoices();
 
-//        List<String> menus = resultMenuRepository.findMenuByMember(member);
-//
-//        // 5개만 리턴
-//        return menus.size() > 5 ? menus.subList(0, 5) : menus; // 5개만 리턴
+        // 랜덤으로 가져온 선택지에서 question 둘 중 하나 다시 랜덤으로 선택하기
+        return choices.stream()
+                .map(choice -> random.nextBoolean() ? choice.getQuestion0() : choice.getQuestion1())
+                .toList();
     }
 
 
-
     public String processSelection(String selectedItem) {
-        // 선택된 항목에 따라 처리 로직을 작성
-        // 예: 데이터베이스에 저장, 비즈니스 로직 수행 등
+
         System.out.println("Received selection: " + selectedItem);
 
-        // 샘플 응답
         return "선택한 항목 '" + selectedItem + "'을(를) 처리했습니다.";
     }
 
