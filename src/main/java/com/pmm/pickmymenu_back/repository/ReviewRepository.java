@@ -16,8 +16,12 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r FROM Review r WHERE r.hiddenStatus = 0 ")
+    // 관리자용 모든 리뷰 조회
     Page<Review> findAllByOrderByCreatedDateDesc(Pageable pageable);
+
+    // 사용자용 숨김 리뷰 조회
+    @Query("SELECT r FROM Review r WHERE r.hiddenStatus = 0 and r.deletedStatus = 0")
+    Page<Review> findAllByOrderByCreatedDateDesc2(Pageable pageable);
 
     // 내 리뷰 날짜순 조회
     Page<Review> findByResultMenu_MemberOrderByCreatedDateDesc(Pageable pageable, Member member);
