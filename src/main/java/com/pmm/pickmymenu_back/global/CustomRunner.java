@@ -26,37 +26,37 @@ public class CustomRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-
-        //surveyRepository.deleteAll();
-        //choiceRepository.deleteAll();
-
-
-
-        List<Choice> choices = Arrays.asList(
-                Choice.create("매운 음식", "순한 음식"),
-                Choice.create("고기 요리", "채식 요리"),
-                Choice.create("밥", "면"),
-                Choice.create("국물 요리", "볶음 요리"),
-                Choice.create("달콤한 맛", "짭짤한 맛"),
-                Choice.create("간편식", "정성 가득한 요리"),
-                Choice.create("전통 한식", "현대 퓨전 음식"),
-                Choice.create("빠른 식사", "여유로운 식사"),
-                Choice.create("따뜻한 음식", "차가운 음식"),
-                Choice.create("해산물 요리", "육류 요리"),
-                Choice.create("자극적인 맛", "담백한 맛"),
-                Choice.create("간단한 식사", "풍성한 코스 요리"),
-                Choice.create("신선한 재료 요리", "풍미 소스 요리"),
-                Choice.create("새로운 음식 도전", "익숙한 메뉴"),
-                Choice.create("패스트푸드", "정통 요리"),
-                Choice.create("부드러운 식감", "바삭한 식감"),
-                Choice.create("신선한 재료 음식", "숙성된 재료 음식"),
-                Choice.create("한 종류 요리", "여러 종류 요리"),
-                Choice.create("깔끔한 플레이팅", "창의적인 플레이팅"),
-                Choice.create("단순한 맛", "복합적인 맛"),
-                Choice.create("건강 중시 음식", "맛 중시 음식")
-        );
-
-        choiceRepository.saveAll(choices);
+//
+//        surveyRepository.deleteAll();
+//        choiceRepository.deleteAll();
+//
+//
+//
+//        List<Choice> choices = Arrays.asList(
+//                Choice.create("매운 음식", "순한 음식"),
+//                Choice.create("고기 요리", "채식 요리"),
+//                Choice.create("밥", "면"),
+//                Choice.create("국물 요리", "볶음 요리"),
+//                Choice.create("달콤한 맛", "짭짤한 맛"),
+//                Choice.create("간편식", "정성 가득한 요리"),
+//                Choice.create("전통 한식", "현대 퓨전 음식"),
+//                Choice.create("빠른 식사", "여유로운 식사"),
+//                Choice.create("따뜻한 음식", "차가운 음식"),
+//                Choice.create("해산물 요리", "육류 요리"),
+//                Choice.create("자극적인 맛", "담백한 맛"),
+//                Choice.create("간단한 식사", "풍성한 코스 요리"),
+//                Choice.create("신선한 재료 요리", "풍미 소스 요리"),
+//                Choice.create("새로운 음식 도전", "익숙한 메뉴"),
+//                Choice.create("패스트푸드", "정통 요리"),
+//                Choice.create("부드러운 식감", "바삭한 식감"),
+//                Choice.create("신선한 재료 음식", "숙성된 재료 음식"),
+//                Choice.create("한 종류 요리", "여러 종류 요리"),
+//                Choice.create("깔끔한 플레이팅", "창의적인 플레이팅"),
+//                Choice.create("단순한 맛", "복합적인 맛"),
+//                Choice.create("건강 중시 음식", "맛 중시 음식")
+//        );
+//
+//        choiceRepository.saveAll(choices);
 
 
 
