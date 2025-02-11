@@ -24,6 +24,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findAllByOrderByCreatedDateDesc2(Pageable pageable);
 
     // 내 리뷰 날짜순 조회
+//    @Query("SELECT r FROM Review r WHERE r.deletedStatus = 0")
     Page<Review> findByResultMenu_MemberOrderByCreatedDateDesc(Pageable pageable, Member member);
 
     // 리뷰id로 작성된 리뷰 찾기
