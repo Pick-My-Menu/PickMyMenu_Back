@@ -2,14 +2,15 @@ package com.pmm.pickmymenu_back.domain;
 
 import com.pmm.pickmymenu_back.dto.request.member.MemberAdminUpdateReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
+import com.pmm.pickmymenu_back.dto.response.GetKakaoLoginDto;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import javax.swing.JPasswordField;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -31,17 +32,20 @@ public class Member extends TimeEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String birthdate;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String gender;
 
     @Column(nullable = false)
     private String role;
+
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
 
     // ResultMenu와의 일대다 관계 설정
     @OneToMany(mappedBy = "member")
@@ -51,7 +55,7 @@ public class Member extends TimeEntity {
     private List<SurveyGroup> surveyGroupList = new ArrayList<>();
 
     private Member(String name, String password, String email,
-            String birthdate, String phoneNumber, String gender, String role) {
+            String birthdate, String phoneNumber, String gender, String role, LoginType loginType) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -59,6 +63,21 @@ public class Member extends TimeEntity {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.role = role;
+        this.loginType = loginType;
+    }
+
+    public static Member createKakao(GetKakaoLoginDto userInfo, String password) {
+        return new Member(
+                userInfo.getKakao_account().getProfile().getNickname(),
+                password,
+                userInfo.getId() + "@kakao.com",
+                null, null, null, "ROLE_USER",
+                LoginType.KAKAO
+        );
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public static Member create(MemberJoinReq member) {
@@ -69,7 +88,8 @@ public class Member extends TimeEntity {
                 member.getBirthdate(),
                 member.getPhoneNumber(),
                 member.getGender(),
-                member.getRole()
+                member.getRole(),
+                null
         );
     }
 

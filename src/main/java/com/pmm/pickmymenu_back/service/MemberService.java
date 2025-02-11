@@ -2,11 +2,13 @@ package com.pmm.pickmymenu_back.service;
 
 import com.pmm.pickmymenu_back.domain.Member;
 import com.pmm.pickmymenu_back.domain.SurveyGroup;
+import com.pmm.pickmymenu_back.dto.KakaoLoginDto;
 import com.pmm.pickmymenu_back.dto.request.member.MemberAdminUpdateReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberJoinReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberLoginReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberRecordReq;
 import com.pmm.pickmymenu_back.dto.request.member.MemberUpdateReq;
+import com.pmm.pickmymenu_back.dto.response.GetKakaoLoginDto;
 import com.pmm.pickmymenu_back.dto.response.member.MemberEmailCheckRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberLoginRes;
 import com.pmm.pickmymenu_back.dto.response.member.MemberMyPageRes;
@@ -35,7 +37,23 @@ public class MemberService {
     private final JWTUtil jwtUtil;
     private final SurveyGroupRepository surveyGroupRepository;
 
-    // 회원가입 로직
+
+    public String createKakaoAccount(GetKakaoLoginDto userInfo, KakaoLoginDto response) {
+        String email = userInfo.getId() + "@kakao.com";
+        Optional<Member> existMember = memberRepository.findByEmail(email);
+        Member member = null;
+        String password = bCryptPasswordEncoder.encode(response.getAccess_token());
+        if (existMember.isPresent()) {
+            member = existMember.get();
+            member.setPassword(password);
+        }else{
+            member = Member.createKakao(userInfo, password);
+        }
+        memberRepository.save(member);
+
+        return jwtUtil.generateToken(member.getEmail(), member.getName(), member.getRole());
+    }
+
     public String joinProcess(MemberJoinReq req) {
 
         boolean isEmailExist = memberRepository.findByEmail(req.getEmail()).isPresent();
@@ -54,8 +72,8 @@ public class MemberService {
         memberRepository.save(member);
         return "회원가입 성공";
     }
-
     // 로그인 로직
+
     public MemberLoginRes loginProcess(MemberLoginReq req, HttpServletResponse res) {
 
         Member member = memberRepository.findByEmail(req.getEmail())
@@ -70,8 +88,8 @@ public class MemberService {
         System.out.println("token : " + token);
         return new MemberLoginRes(token, member.getName(), member.getRole());
     }
-
     // 마이페이지 조회
+
     public MemberMyPageRes getMemberInfo(String token) {
 
         if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
@@ -82,8 +100,8 @@ public class MemberService {
 
         return new MemberMyPageRes(member);
     }
-
     // 수정페이지 가기 전 비밀번호 확인
+
     public boolean verifyPassword(String token, String password) {
 
         if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
@@ -94,8 +112,8 @@ public class MemberService {
 
         return bCryptPasswordEncoder.matches(password, member.getPassword());
     }
-
     // 이메일 중복 확인
+
     public MemberEmailCheckRes isEmailExist(String email) {
 
         String normalizedEmail = email.trim().toLowerCase();
@@ -106,8 +124,8 @@ public class MemberService {
 
         return new MemberEmailCheckRes("사용 가능한 이메일입니다.");
     }
-
     // 전화번호 중복 확인
+
     public MemberPhoneCheckRes isPhoneExist(String phoneNumber) {
 
         Optional<Member> existPhone = memberRepository.findByPhoneNumber(phoneNumber);
@@ -117,8 +135,8 @@ public class MemberService {
 
         return new MemberPhoneCheckRes("사용 가능한 전화번호입니다.");
     }
-
     // 회원 정보 업데이트 로직 (전화번호 변경 시에만 중복 체크)
+
     public boolean updateMember(MemberUpdateReq memberUpdateReq, String token) {
 
         if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
@@ -144,8 +162,8 @@ public class MemberService {
         memberRepository.save(member);
         return true;
     }
-    
     // 회원탈퇴
+
     public void deleteMember(String token) {
         if (token == null) throw new MemberException("토큰이 존재하지 않습니다.");
 

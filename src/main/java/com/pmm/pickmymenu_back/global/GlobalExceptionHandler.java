@@ -15,14 +15,14 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MemberException.class)
-    public BaseResponse<String> handleMemberException(Exception e, WebRequest req, HttpServletResponse response) throws MemberException{
+    public BaseResponse<String> handleMemberException(Exception e, WebRequest req) throws MemberException{
         log.error("Exception : {}", e.getMessage());
         log.error("Uri : {}", req.getDescription(false));
         return BaseResponse.fail(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public BaseResponse<String> handleException(Exception e, WebRequest req, HttpServletResponse response) throws Exception{
+    public BaseResponse<String> handleException(Exception e, WebRequest req) throws Exception{
         log.error("Exception : {}", e.getMessage());
         log.error("Uri : {}", req.getDescription(false));
         return BaseResponse.fail(e.getMessage());

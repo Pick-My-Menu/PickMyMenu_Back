@@ -86,8 +86,8 @@ public class CustomRunner implements ApplicationRunner {
 //        Choice choice28 = Choice.create("신선한 재료", "가공된 재료");
 //        Choice choice29 = Choice.create("기름진 음식", "가벼운 음식");
 //        Choice choice30 = Choice.create("향이 강한 음식", "향이 은은한 음식");
-//
-//
+////
+////
 //        choiceRepository.save(choice1);
 //        choiceRepository.save(choice2);
 //        choiceRepository.save(choice3);

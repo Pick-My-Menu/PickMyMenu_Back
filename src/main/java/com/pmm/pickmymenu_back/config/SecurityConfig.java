@@ -21,15 +21,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
 
         http
-                .csrf((auth) -> auth.disable());
-
-        http
-                .formLogin((auth) -> auth.disable());
-
-        http
-                .httpBasic((auth) -> auth.disable());
+                .csrf((auth) -> auth.disable())
+                .formLogin((auth) -> auth.disable())
+                .httpBasic((auth) -> auth.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**")
+                        .permitAll() //  인증 없이 접근 허용
+                        .anyRequest().authenticated() // 그 외 요청은 인증 필요
+                );
 
         return http.build();
     }
-
 }

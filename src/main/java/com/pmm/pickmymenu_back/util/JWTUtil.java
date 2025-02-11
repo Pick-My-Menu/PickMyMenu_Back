@@ -21,6 +21,8 @@ public class JWTUtil {
     private String issuer;  // application.yml에서 가져올 issuer
 
     private Key secretKey;
+    @Value("${data.kakao.secret}")
+    private String kakaoSecret;
 
     // 초기화 시 secretKey를 생성하여 저장
     @PostConstruct
@@ -66,6 +68,14 @@ public class JWTUtil {
                 .getBody();
 
         return claims.get("role", String.class);
+    }
+
+    public Claims decodeJwt(String idToken) {
+        return Jwts.parser()
+//                .setSigningKey(kakaoSecret)
+                .parseClaimsJws(idToken)
+                .getBody();
+
     }
 
 
