@@ -25,7 +25,6 @@ import java.util.stream.IntStream;
 public class MapService {
 
     private final WebClient kakaoWebClient;
-    private final WebClient baseWebClient;
 
     public Mono<PlaceSearchRes> placeSearch(PlaceSearchReq req) {
         return getSearchResult(req).flatMap(placeSearchRes -> {
