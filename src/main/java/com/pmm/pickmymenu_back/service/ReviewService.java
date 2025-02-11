@@ -107,7 +107,7 @@ public class ReviewService {
                 .map(ReviewRes::new)  // Review 객체를 ReviewRes로 변환
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(filteredReviews, pageable, filteredReviews.size());
+        return new PageImpl<>(filteredReviews, pageable, all.getTotalElements()); // 전체 데이터 개수 반영
     }
 
     // 내 리뷰 리스트
