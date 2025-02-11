@@ -39,7 +39,7 @@ public class MemberService {
 
 
     public String createKakaoAccount(GetKakaoLoginDto userInfo, KakaoLoginDto response) {
-        String email = userInfo.getId() + "@kakao.com";
+        String email = userInfo.getKakao_account().getEmail();
         Optional<Member> existMember = memberRepository.findByEmail(email);
         Member member = null;
         String password = bCryptPasswordEncoder.encode(response.getAccess_token());
