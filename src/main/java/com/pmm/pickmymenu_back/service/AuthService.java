@@ -4,6 +4,7 @@ import com.pmm.pickmymenu_back.dto.KakaoLoginDto;
 import com.pmm.pickmymenu_back.dto.response.GetKakaoLoginDto;
 import com.pmm.pickmymenu_back.util.JWTUtil;
 import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -31,10 +32,11 @@ public class AuthService {
 
     }
 
-    public String getKakaoAccessToken(String code, String KAKAO_KEY, String REDIRECT_URL) {
+    public String getKakaoAccessToken(String code, String KAKAO_KEY, String SECRET, String REDIRECT_URL) {
 
-        KakaoLoginDto response = getKakaoKey(code, KAKAO_KEY, REDIRECT_URL);
+        KakaoLoginDto response = getKakaoKey(code, KAKAO_KEY, SECRET, REDIRECT_URL);
         GetKakaoLoginDto userInfo = getKakaoUserInfo(response);
+
         return memberService.createKakaoAccount(userInfo, response);
     }
 
@@ -42,7 +44,10 @@ public class AuthService {
         return kakaoToken2.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v2/user/me")
-                        .queryParam("property_keys", "[\"kakao_account.name\",\"kakao_account.profile\"]")
+                        .queryParam("property_keys", "[\"kakao_account.name\",\"kakao_account.profile\""
+                                + ",\"kakao_account.email\""
+                                + ",\"kakao_account.birthday\""
+                                + ",\"kakao_account.gender\"]")
                         .build())
                 .header("Authorization", "Bearer " + response.getAccess_token())
                 .header("Content-type", MediaType.APPLICATION_JSON_VALUE)  // application/json으로 수정
@@ -51,17 +56,20 @@ public class AuthService {
                 .block();
     }
 
-    private KakaoLoginDto getKakaoKey(String code, String KAKAO_KEY, String REDIRECT_URL) {
-        return kakaoToken.post()
+    private KakaoLoginDto getKakaoKey(String code, String KAKAO_KEY, String SECRET, String REDIRECT_URL) {
+        KakaoLoginDto block = kakaoToken.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/oauth/token")
                         .queryParam("grant_type", "authorization_code")
                         .queryParam("client_id", KAKAO_KEY)
                         .queryParam("redirect_uri", REDIRECT_URL)
+                        .queryParam("client_secret", SECRET)
                         .queryParam("code", code)
                         .build())
                 .retrieve()
                 .bodyToMono(KakaoLoginDto.class)
                 .block();
+        System.out.println(block);
+        return block;
     }
 }

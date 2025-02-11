@@ -23,6 +23,8 @@ public class AuthController {
     private String KAKAO_KEY;
     @Value("${data.kakao.redirect}")
     private String REDIRECT_URL;
+    @Value("${data.kakao.secret}")
+    private String SECRET;
     private final AuthService authService;
 
     @GetMapping("/kakao")
@@ -43,7 +45,7 @@ public class AuthController {
             @RequestParam("state") String state, HttpSession session
     ) {
         authService.checkSessionState(state, session);
-        String token = authService.getKakaoAccessToken(code, KAKAO_KEY, REDIRECT_URL);
+        String token = authService.getKakaoAccessToken(code, KAKAO_KEY, SECRET, REDIRECT_URL);
 
         String frontendUrl = "http://localhost:3000/kakao/callback?token=" + token;
         return ResponseEntity.status(HttpStatus.FOUND).header("Location", frontendUrl).build();

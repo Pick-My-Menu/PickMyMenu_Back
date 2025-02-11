@@ -18,6 +18,9 @@ public class GetKakaoLoginDto {
     @ToString
     public static class KakaoAccount{
         private Boolean profile_nickname_needs_agreement;
+        private String email;
+        private String birthday;
+        private String gender;
         private Profile profile;
     }
 

@@ -70,8 +70,11 @@ public class Member extends TimeEntity {
         return new Member(
                 userInfo.getKakao_account().getProfile().getNickname(),
                 password,
-                userInfo.getId() + "@kakao.com",
-                null, null, null, "ROLE_USER",
+                userInfo.getKakao_account().getEmail(),
+                userInfo.getKakao_account().getBirthday(),
+                null,
+                userInfo.getKakao_account().getGender().equals("male") ? "남" : "여",
+                "ROLE_USER",
                 LoginType.KAKAO
         );
     }
