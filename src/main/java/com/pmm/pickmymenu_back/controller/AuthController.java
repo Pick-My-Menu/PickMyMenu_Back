@@ -47,8 +47,7 @@ public class AuthController {
         authService.checkSessionState(state, session);
         String token = authService.getKakaoAccessToken(code, KAKAO_KEY, SECRET, REDIRECT_URL);
 
-        String frontendUrl = "http://localhost:3000/kakao/callback?token=" + token;
+        String frontendUrl = "https://hhjnn92.synology.me:7061/kakao/callback?token=" + token;
         return ResponseEntity.status(HttpStatus.FOUND).header("Location", frontendUrl).build();
-
     }
 }
